@@ -2,6 +2,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.7.21"
     id "java"
     id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "maven-publish"
 }
 
 group "mc.tsukimiya"
@@ -21,6 +22,24 @@ dependencies {
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/tsukimiyaproject/MooneyCore")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
 
 test {
