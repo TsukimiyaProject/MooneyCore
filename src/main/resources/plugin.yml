@@ -1,6 +1,6 @@
 name: MooneyCore
 version: 1.0-SNAPSHOT
-main: mc.tsukimiya.mooney.MooneyCore
+main: mc.tsukimiya.mooney.core.MooneyCore
 api-version: 1.19
 author: deceitya
 description: money plugin for Tsukimiya Project
