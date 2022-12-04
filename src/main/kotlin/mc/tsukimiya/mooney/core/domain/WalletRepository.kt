@@ -1,6 +1,6 @@
 package mc.tsukimiya.mooney.core.domain
 
-import java.util.UUID
+import java.util.*
 
 interface WalletRepository {
     fun exists(id: UUID): Boolean
