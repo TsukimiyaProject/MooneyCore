@@ -7,20 +7,18 @@ import mc.tsukimiya.mooney.core.infrastructure.repository.WalletRepositoryImpl
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
-class PayPlayerUseCase {
+class DecreaseMoneyUseCase {
     private val repository = WalletRepositoryImpl()
 
-    fun execute(from: UUID, to: UUID, amount: Int) {
+    fun execute(id: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative, was $amount" }
 
         transaction {
-            val fromMoney = repository.find(from) ?: throw WalletNotFoundException(from)
-            val toMoney = repository.find(to) ?: throw WalletNotFoundException(to)
+            val wallet = repository.find(id) ?: throw WalletNotFoundException(id)
             try {
-                repository.save(from, Money(fromMoney.amount - amount))
-                repository.save(to, Money(toMoney.amount + amount))
+                repository.save(id, Money(wallet.amount - amount))
             } catch (e: IllegalArgumentException) {
-                throw NegativeMoneyException(from)
+                throw NegativeMoneyException(id)
             }
         }
     }

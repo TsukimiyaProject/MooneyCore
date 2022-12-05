@@ -8,9 +8,11 @@ import java.util.*
 class StoreMoneyUseCase {
     private val repository = WalletRepositoryImpl()
 
-    fun execute(id: UUID, money: Int) {
+    fun execute(id: UUID, amount: Int) {
+        require(amount >= 0) { "Amount must be non-negative, was $amount" }
+
         transaction {
-            repository.save(id, Money(money))
+            repository.save(id, Money(amount))
         }
     }
 }
