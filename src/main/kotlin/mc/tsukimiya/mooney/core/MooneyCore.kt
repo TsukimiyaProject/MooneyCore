@@ -2,6 +2,7 @@ package mc.tsukimiya.mooney.core
 
 import mc.tsukimiya.mooney.core.event.DecreaseMoneyEvent
 import mc.tsukimiya.mooney.core.event.IncreaseMoneyEvent
+import mc.tsukimiya.mooney.core.event.PayMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
@@ -71,6 +72,7 @@ class MooneyCore : JavaPlugin() {
      */
     fun payMoney(from: UUID, to: UUID, amount: Int) {
         PayPlayerUseCase().execute(from, to, amount)
+        Bukkit.getPluginManager().callEvent(PayMoneyEvent(from, to, amount))
     }
 
     /**
