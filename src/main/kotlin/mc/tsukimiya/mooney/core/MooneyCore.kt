@@ -1,6 +1,10 @@
 package mc.tsukimiya.mooney.core
 
+import mc.tsukimiya.mooney.core.event.DecreaseMoneyEvent
+import mc.tsukimiya.mooney.core.event.IncreaseMoneyEvent
+import mc.tsukimiya.mooney.core.event.SetMoneyEvent
 import mc.tsukimiya.mooney.core.usecase.*
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -33,6 +37,7 @@ class MooneyCore : JavaPlugin() {
      */
     fun setMoney(player: UUID, amount: Int) {
         StoreMoneyUseCase().execute(player, amount)
+        Bukkit.getPluginManager().callEvent(SetMoneyEvent(player, amount))
     }
 
     /**
@@ -41,8 +46,9 @@ class MooneyCore : JavaPlugin() {
      * @param player
      * @param amount
      */
-    fun addMoney(player: UUID, amount: Int) {
+    fun increaseMoney(player: UUID, amount: Int) {
         IncreaseMoneyUseCase().execute(player, amount)
+        Bukkit.getPluginManager().callEvent(IncreaseMoneyEvent(player, amount))
     }
 
     /**
@@ -51,8 +57,9 @@ class MooneyCore : JavaPlugin() {
      * @param player
      * @param amount
      */
-    fun reduceMoney(player: UUID, amount: Int) {
+    fun decreaseMoney(player: UUID, amount: Int) {
         DecreaseMoneyUseCase().execute(player, amount)
+        Bukkit.getPluginManager().callEvent(DecreaseMoneyEvent(player, amount))
     }
 
     /**
