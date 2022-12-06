@@ -1,8 +1,8 @@
 package mc.tsukimiya.mooney.core
 
-import mc.tsukimiya.mooney.core.event.DecreaseMoneyEvent
-import mc.tsukimiya.mooney.core.event.IncreaseMoneyEvent
-import mc.tsukimiya.mooney.core.event.PayMoneyEvent
+import mc.tsukimiya.mooney.core.event.DecreasedMoneyEvent
+import mc.tsukimiya.mooney.core.event.IncreasedMoneyEvent
+import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
@@ -49,7 +49,7 @@ class MooneyCore : JavaPlugin() {
      */
     fun increaseMoney(player: UUID, amount: Int) {
         IncreaseMoneyUseCase().execute(player, amount)
-        Bukkit.getPluginManager().callEvent(IncreaseMoneyEvent(player, amount))
+        Bukkit.getPluginManager().callEvent(IncreasedMoneyEvent(player, amount))
     }
 
     /**
@@ -60,7 +60,7 @@ class MooneyCore : JavaPlugin() {
      */
     fun decreaseMoney(player: UUID, amount: Int) {
         DecreaseMoneyUseCase().execute(player, amount)
-        Bukkit.getPluginManager().callEvent(DecreaseMoneyEvent(player, amount))
+        Bukkit.getPluginManager().callEvent(DecreasedMoneyEvent(player, amount))
     }
 
     /**
@@ -72,7 +72,7 @@ class MooneyCore : JavaPlugin() {
      */
     fun payMoney(from: UUID, to: UUID, amount: Int) {
         PayPlayerUseCase().execute(from, to, amount)
-        Bukkit.getPluginManager().callEvent(PayMoneyEvent(from, to, amount))
+        Bukkit.getPluginManager().callEvent(PaidMoneyEvent(from, to, amount))
     }
 
     /**

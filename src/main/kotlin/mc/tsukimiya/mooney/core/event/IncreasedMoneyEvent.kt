@@ -4,7 +4,7 @@ import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import java.util.*
 
-class PayMoneyEvent(val fromPlayer: UUID, val toPlayer: UUID, val amount: Int) : Event() {
+class IncreasedMoneyEvent(val playerId: UUID, val amount: Int) : Event() {
     companion object {
         private val handlerList = HandlerList()
 
