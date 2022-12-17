@@ -9,5 +9,5 @@ import java.util.*
 class Wallet(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<Wallet>(Wallets)
 
-    var amount by Wallets.amount
+    var money by Wallets.money
 }

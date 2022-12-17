@@ -12,13 +12,13 @@ class WalletRepositoryImpl : WalletRepository {
 
     override fun find(id: UUID): Money? {
         val wallet = Wallet.findById(id)
-        return if (wallet != null) Money(wallet.amount) else null
+        return if (wallet != null) Money(wallet.money) else null
     }
 
     override fun findAll(): Map<UUID, Money> {
         val wallets = mutableMapOf<UUID, Money>()
         Wallet.all().forEach {
-            wallets[it.id.value] = Money(it.amount)
+            wallets[it.id.value] = Money(it.money)
         }
 
         return wallets
@@ -31,10 +31,10 @@ class WalletRepositoryImpl : WalletRepository {
     override fun save(id: UUID, money: Money) {
         val wallet = Wallet.findById(id)
         if (wallet != null) {
-            wallet.amount = money.amount
+            wallet.money = money.amount
         } else {
             Wallet.new(id) {
-                amount = money.amount
+                this.money = money.amount
             }
         }
     }
