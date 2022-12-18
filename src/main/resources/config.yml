@@ -1,0 +1,12 @@
+default-money: 1000
+
+# sqlite or mysql
+db-type: sqlite
+sqlite:
+  file: mooney-core.sqlite3
+mysql:
+  address: localhost
+  port: 3306
+  database: example
+  user: root
+  password: password
