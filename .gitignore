@@ -40,6 +40,9 @@
 *.iml
 *.ipr
 
+# IntelliJ Discord Plugin
+.idea/discord.xml
+
 # CMake
 cmake-build-*/
 
