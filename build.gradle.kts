@@ -1,40 +1,42 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.21"
-    id("java")
+    java
+    `maven-publish`
+    kotlin("jvm") version "1.7.21"
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("maven-publish")
     id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
 }
 
-group = "mc.tsukimiya"
+group = "mc.tsukimiya.mooney"
 version = "1.0-SNAPSHOT"
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+val mcVersion = "1.19.3"
+val latest = "latest.release"
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    maven("https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper", "paper-api", "1.19.2-R0.1-SNAPSHOT")
-    library("org.jetbrains.kotlin", "kotlin-stdlib")
-    library("org.jetbrains.exposed", "exposed-core", "0.40.1")
-    library("org.jetbrains.exposed", "exposed-jdbc", "0.40.1")
-    library("org.jetbrains.exposed", "exposed-dao", "0.40.1")
-    library("org.xerial", "sqlite-jdbc", "3.40.0.0")
+    compileOnly("io.papermc.paper", "paper-api", "$mcVersion-R0.1-SNAPSHOT")
+    library(kotlin("stdlib"))
+    library("org.jetbrains.exposed", "exposed-core", latest)
+    library("org.jetbrains.exposed", "exposed-jdbc", latest)
+    library("org.jetbrains.exposed", "exposed-dao", latest)
+    library("org.xerial", "sqlite-jdbc", latest)
     testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.0")
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.0")
 }
 
 bukkit {
     name = "MooneyCore"
-    version = "1.2"
+    version = getVersion().toString()
     description = "お金プラグイン"
     author = "deceitya"
     main = "mc.tsukimiya.mooney.core.MooneyCore"
-    apiVersion = "1.19"
+    apiVersion = mcVersion.substring(0, mcVersion.lastIndexOf("."))
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
 
     commands {
@@ -85,14 +87,22 @@ bukkit {
     }
 }
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+tasks.getByName<Test>("test") {
+    useJUnitPlatform()
+}
+
 publishing {
     repositories {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/tsukimiyaproject/MooneyCore")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
             }
         }
     }
