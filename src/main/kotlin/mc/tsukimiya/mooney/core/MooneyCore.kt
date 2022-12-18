@@ -6,10 +6,13 @@ import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-class MooneyCore : JavaPlugin() {
+class MooneyCore : JavaPlugin(), Listener {
     companion object {
         private lateinit var instance: MooneyCore
 
@@ -18,6 +21,15 @@ class MooneyCore : JavaPlugin() {
 
     override fun onLoad() {
         instance = this
+    }
+
+    override fun onEnable() {
+        server.pluginManager.registerEvents(this, this)
+    }
+
+    @EventHandler
+    fun onPlayerJoin(event: PlayerJoinEvent) {
+        createAccount(event.player.uniqueId, 1000)
     }
 
     /**
@@ -76,7 +88,17 @@ class MooneyCore : JavaPlugin() {
     }
 
     /**
-     * プレイヤーのアカウント削除
+     * プレイヤーのデータ作成
+     *
+     * @param player
+     * @param defaultMoney
+     */
+    fun createAccount(player: UUID, defaultMoney: Int) {
+        CreateWalletUseCase().execute(player, defaultMoney)
+    }
+
+    /**
+     * プレイヤーのデータ削除
      *
      * @param player
      */
