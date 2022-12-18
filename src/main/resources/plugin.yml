@@ -4,3 +4,37 @@ main: mc.tsukimiya.mooney.core.MooneyCore
 api-version: 1.19
 author: deceitya
 description: money plugin for Tsukimiya Project
+
+commands:
+  money:
+    description: お金コマンド
+    permission: tsukimiya.mooney.core.money
+    usage: /money [help|set|see|give|pay]
+
+permissions:
+  tsukimiya.mooney.core.*:
+    children:
+      tsukimiya.mooney.core.money: true
+      tsukimiya.mooney.core.show: true
+      tsukimiya.mooney.core.pay: true
+      tsukimiya.mooney.core.plus: true
+      tsukimiya.mooney.core.minus: true
+      tsukimiya.mooney.core.set: true
+      tsukimiya.mooney.core.top: true
+      tsukimiya.mooney.core.help: true
+  tsukimiya.mooney.core.money:
+    default: true
+  tsukimiya.mooney.core.show:
+    default: op
+  tsukimiya.mooney.core.pay:
+    default: true
+  tsukimiya.mooney.core.plus:
+    default: op
+  tsukimiya.mooney.core.minus:
+    default: op
+  tsukimiya.mooney.core.set:
+    default: op
+  tsukimiya.mooney.core.top:
+    default: true
+  tsukimiya.mooney.core.help:
+    default: true
