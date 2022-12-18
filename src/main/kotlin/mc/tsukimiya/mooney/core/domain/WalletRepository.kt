@@ -13,5 +13,7 @@ interface WalletRepository {
 
     fun save(id: UUID, money: Money)
 
+    fun create(id: UUID, defaultMoney: Money)
+
     fun delete(id: UUID)
 }

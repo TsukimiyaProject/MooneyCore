@@ -30,13 +30,11 @@ class WalletRepositoryImpl : WalletRepository {
 
     override fun save(id: UUID, money: Money) {
         val wallet = Wallet.findById(id)
-        if (wallet != null) {
-            wallet.money = money.amount
-        } else {
-            Wallet.new(id) {
-                this.money = money.amount
-            }
-        }
+        wallet?.money = money.amount
+    }
+
+    override fun create(id: UUID, defaultMoney: Money) {
+        Wallet.new(id) { this.money = defaultMoney.amount }
     }
 
     override fun delete(id: UUID) {
