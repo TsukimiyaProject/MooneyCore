@@ -26,6 +26,7 @@ dependencies {
     library("org.jetbrains.exposed", "exposed-jdbc", latest)
     library("org.jetbrains.exposed", "exposed-dao", latest)
     library("org.xerial", "sqlite-jdbc", latest)
+    library("com.mysql", "mysql-connector-j", latest)
     testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.0")
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.0")
 }
