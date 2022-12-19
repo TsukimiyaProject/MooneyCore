@@ -1,9 +1,11 @@
 package mc.tsukimiya.mooney.core
 
+import mc.tsukimiya.mooney.core.command.MoneyCommand
 import mc.tsukimiya.mooney.core.event.DecreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.IncreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
+import mc.tsukimiya.mooney.core.infrastructure.DatabaseConnector
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -24,7 +26,15 @@ class MooneyCore : JavaPlugin(), Listener {
     }
 
     override fun onEnable() {
+        dataFolder.mkdir()
+        saveDefaultConfig()
+
         server.pluginManager.registerEvents(this, this)
+
+        DatabaseConnector(this).connect()
+        val c = MoneyCommand()
+        getCommand("money")?.setExecutor(c)
+        getCommand("money")?.tabCompleter = c
     }
 
     @EventHandler
