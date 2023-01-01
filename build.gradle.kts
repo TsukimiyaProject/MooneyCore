@@ -3,7 +3,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     java
     `maven-publish`
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.8.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
 }
@@ -12,23 +12,26 @@ group = "mc.tsukimiya.mooney"
 version = "1.0-SNAPSHOT"
 
 val mcVersion = "1.19.3"
-val latest = "latest.release"
 
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
+    maven {
+        url = uri("https://maven.pkg.github.com/tsukimiyaproject/Lib4B")
+        credentials {
+            username = project.findProperty("gpr.user") as String?
+            password = project.findProperty("gpr.key") as String?
+        }
+    }
 }
 
 dependencies {
-    compileOnly("io.papermc.paper", "paper-api", "$mcVersion-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:${mcVersion}-R0.1-SNAPSHOT")
     library(kotlin("stdlib"))
-    library("org.jetbrains.exposed", "exposed-core", latest)
-    library("org.jetbrains.exposed", "exposed-jdbc", latest)
-    library("org.jetbrains.exposed", "exposed-dao", latest)
-    library("org.xerial", "sqlite-jdbc", latest)
-    library("com.mysql", "mysql-connector-j", latest)
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.0")
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.0")
+    library("org.jetbrains.exposed:exposed-dao:0.41.1")
+    library("mc.tsukimiya:lib4b:1.0.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 bukkit {
@@ -102,8 +105,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/tsukimiyaproject/MooneyCore")
             credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
