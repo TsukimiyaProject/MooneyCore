@@ -1,5 +1,12 @@
 default-money: 1000
 
+command:
+  general:
+    not-found-player: "%ERROR% %0のデータは存在しません。"
+  setmoney:
+    success: "%SUCCESS% %0の所持金を%1に設定しました。"
+
+
 # sqlite or mysql
 db-type: sqlite
 sqlite:

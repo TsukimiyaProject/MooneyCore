@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "mc.tsukimiya.mooney"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 val mcVersion = "1.19.3"
 
@@ -27,9 +27,9 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:${mcVersion}-R0.1-SNAPSHOT")
+    compileOnly("mc.tsukimiya:lib4b:1.0.1")
     library(kotlin("stdlib"))
     library("org.jetbrains.exposed:exposed-dao:0.41.1")
-    library("mc.tsukimiya:lib4b:1.0.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
@@ -42,6 +42,7 @@ bukkit {
     main = "mc.tsukimiya.mooney.core.MooneyCore"
     apiVersion = mcVersion.substring(0, mcVersion.lastIndexOf("."))
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
+    depend = listOf("Lib4B")
 
     commands {
         register("money") {

@@ -1,17 +1,23 @@
 package mc.tsukimiya.mooney.core
 
+import mc.tsukimiya.lib4b.command.CommandRegistrar
+import mc.tsukimiya.lib4b.db.DatabaseConnector
+import mc.tsukimiya.lib4b.lang.MessageFormatter
 import mc.tsukimiya.mooney.core.command.MoneyCommand
+import mc.tsukimiya.mooney.core.command.MoneySetCommand
 import mc.tsukimiya.mooney.core.event.DecreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.IncreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
-import mc.tsukimiya.mooney.core.infrastructure.DatabaseConnector
+import mc.tsukimiya.mooney.core.infrastructure.table.Wallets
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class MooneyCore : JavaPlugin(), Listener {
@@ -20,6 +26,8 @@ class MooneyCore : JavaPlugin(), Listener {
 
         fun getInstance(): MooneyCore = instance
     }
+
+    lateinit var messageFormatError: MessageFormatter
 
     override fun onLoad() {
         instance = this
@@ -31,15 +39,26 @@ class MooneyCore : JavaPlugin(), Listener {
 
         server.pluginManager.registerEvents(this, this)
 
-        DatabaseConnector(this).connect()
-        val c = MoneyCommand()
-        getCommand("money")?.setExecutor(c)
-        getCommand("money")?.tabCompleter = c
+        messageFormatError = MessageFormatter(config)
+        registerCommands()
+        connectDB()
+    }
+
+    private fun registerCommands() {
+        val registrar = CommandRegistrar(this)
+        registrar.registerCommand(MoneyCommand(), MoneySetCommand())
+    }
+
+    private fun connectDB() {
+        DatabaseConnector.connect(config)
+        transaction {
+            SchemaUtils.create(Wallets)
+        }
     }
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        createAccount(event.player.uniqueId, 1000)
+        createAccount(event.player.uniqueId, config.getInt("default-money"))
     }
 
     /**
