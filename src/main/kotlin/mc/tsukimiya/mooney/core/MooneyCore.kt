@@ -22,12 +22,10 @@ import java.util.*
 
 class MooneyCore : JavaPlugin(), Listener {
     companion object {
-        private lateinit var instance: MooneyCore
-
-        fun getInstance(): MooneyCore = instance
+        lateinit var instance: MooneyCore
     }
 
-    lateinit var messageFormatError: MessageFormatter
+    lateinit var formatter: MessageFormatter
 
     override fun onLoad() {
         instance = this
@@ -39,7 +37,7 @@ class MooneyCore : JavaPlugin(), Listener {
 
         server.pluginManager.registerEvents(this, this)
 
-        messageFormatError = MessageFormatter(config)
+        formatter = MessageFormatter(config)
         registerCommands()
         connectDB()
     }
