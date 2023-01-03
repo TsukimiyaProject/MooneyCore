@@ -8,7 +8,11 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class MoneySetCommand : BaseSubCommand("set", "/money set <player> <amount>", "tsukimiya.mooney.core.set") {
+class MoneySetCommand : BaseSubCommand(
+    "set",
+    MooneyCore.instance.formatter.formatMessage("command.setmoney.usage"),
+    "tsukimiya.mooney.core.set"
+) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (args == null || args.size < 2 || Validation.isInt(args[1])) {
             return false
@@ -16,15 +20,22 @@ class MoneySetCommand : BaseSubCommand("set", "/money set <player> <amount>", "t
 
         val target = Bukkit.getPlayerUniqueId(args[0])
         if (target == null) {
-            sender.sendMessage(args[0] + "は存在しないプレイヤーです")
+            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
             return true
         }
 
         val amount = args[1].toInt()
         try {
-            MooneyCore.getInstance().setMoney(target, amount)
+            MooneyCore.instance.setMoney(target, amount)
+            sender.sendMessage(
+                MooneyCore.instance.formatter.formatMessage(
+                    "command.setmoney.success",
+                    args[0],
+                    args[1]
+                )
+            )
         } catch (e: WalletNotFoundException) {
-            sender.sendMessage(args[0] + "のデータがありません")
+            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
         }
 
         return true

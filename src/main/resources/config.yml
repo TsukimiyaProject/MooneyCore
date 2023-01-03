@@ -5,6 +5,7 @@ command:
     not-found-player: "%ERROR% %0のデータは存在しません。"
   setmoney:
     success: "%SUCCESS% %0の所持金を%1に設定しました。"
+    usage: "/money set <プレイヤー名> <金額>"
 
 
 # sqlite or mysql
