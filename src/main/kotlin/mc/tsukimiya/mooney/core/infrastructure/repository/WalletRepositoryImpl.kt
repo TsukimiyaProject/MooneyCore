@@ -2,7 +2,7 @@ package mc.tsukimiya.mooney.core.infrastructure.repository
 
 import mc.tsukimiya.mooney.core.domain.Money
 import mc.tsukimiya.mooney.core.domain.WalletRepository
-import mc.tsukimiya.mooney.core.infrastructure.entity.Wallet
+import mc.tsukimiya.mooney.core.infrastructure.dao.Wallet
 import java.util.*
 
 class WalletRepositoryImpl : WalletRepository {

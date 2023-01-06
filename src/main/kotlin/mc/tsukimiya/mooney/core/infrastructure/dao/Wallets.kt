@@ -1,4 +1,4 @@
-package mc.tsukimiya.mooney.core.infrastructure.table
+package mc.tsukimiya.mooney.core.infrastructure.dao
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Column

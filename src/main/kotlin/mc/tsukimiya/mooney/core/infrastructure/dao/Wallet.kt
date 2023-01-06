@@ -1,6 +1,5 @@
-package mc.tsukimiya.mooney.core.infrastructure.entity
+package mc.tsukimiya.mooney.core.infrastructure.dao
 
-import mc.tsukimiya.mooney.core.infrastructure.table.Wallets
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
