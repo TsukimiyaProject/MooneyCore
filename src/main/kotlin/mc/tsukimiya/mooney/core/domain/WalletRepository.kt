@@ -3,6 +3,8 @@ package mc.tsukimiya.mooney.core.domain
 import java.util.*
 
 interface WalletRepository {
+    companion object
+
     fun exists(id: UUID): Boolean
 
     fun find(id: UUID): Money?

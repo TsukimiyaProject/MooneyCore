@@ -42,3 +42,5 @@ class WalletRepositoryImpl : WalletRepository {
         wallet?.delete()
     }
 }
+
+fun WalletRepository.Companion.newInstance(): WalletRepository = WalletRepositoryImpl()

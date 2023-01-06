@@ -1,15 +1,13 @@
 package mc.tsukimiya.mooney.core.usecase
 
 import mc.tsukimiya.mooney.core.domain.MoneyAmountChanger
+import mc.tsukimiya.mooney.core.domain.WalletRepository
 import mc.tsukimiya.mooney.core.exception.NegativeMoneyException
 import mc.tsukimiya.mooney.core.exception.WalletNotFoundException
-import mc.tsukimiya.mooney.core.infrastructure.repository.WalletRepositoryImpl
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
-class IncreaseMoneyUseCase {
-    private val repository = WalletRepositoryImpl()
-
+class IncreaseMoneyUseCase(private val repository: WalletRepository) {
     fun execute(id: UUID, amount: Int) {
         transaction {
             val money = repository.find(id) ?: throw WalletNotFoundException(id)

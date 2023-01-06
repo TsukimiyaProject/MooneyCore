@@ -4,12 +4,14 @@ import mc.tsukimiya.lib4b.command.CommandRegistrar
 import mc.tsukimiya.lib4b.lang.MessageFormatter
 import mc.tsukimiya.mooney.core.command.MoneyCommand
 import mc.tsukimiya.mooney.core.command.MoneySetCommand
+import mc.tsukimiya.mooney.core.domain.WalletRepository
 import mc.tsukimiya.mooney.core.event.DecreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.IncreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
 import mc.tsukimiya.mooney.core.infrastructure.DatabaseConnector
 import mc.tsukimiya.mooney.core.infrastructure.dao.Wallets
+import mc.tsukimiya.mooney.core.infrastructure.repository.newInstance
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -26,6 +28,7 @@ class MooneyCore : JavaPlugin(), Listener {
     }
 
     lateinit var formatter: MessageFormatter
+    private val walletRepository = WalletRepository.newInstance()
 
     override fun onLoad() {
         instance = this
@@ -66,7 +69,7 @@ class MooneyCore : JavaPlugin(), Listener {
      * @return
      */
     fun getMoney(player: UUID): Int {
-        return RetrieveMoneyUseCase().execute(player)
+        return RetrieveMoneyUseCase(walletRepository).execute(player)
     }
 
     /**
@@ -78,7 +81,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun setMoney(player: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        StoreMoneyUseCase().execute(player, amount)
+        StoreMoneyUseCase(walletRepository).execute(player, amount)
         Bukkit.getPluginManager().callEvent(SetMoneyEvent(player, amount))
     }
 
@@ -91,7 +94,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun increaseMoney(player: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        IncreaseMoneyUseCase().execute(player, amount)
+        IncreaseMoneyUseCase(walletRepository).execute(player, amount)
         Bukkit.getPluginManager().callEvent(IncreasedMoneyEvent(player, amount))
     }
 
@@ -104,7 +107,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun decreaseMoney(player: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        DecreaseMoneyUseCase().execute(player, amount)
+        DecreaseMoneyUseCase(walletRepository).execute(player, amount)
         Bukkit.getPluginManager().callEvent(DecreasedMoneyEvent(player, amount))
     }
 
@@ -118,7 +121,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun payMoney(from: UUID, to: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        PayPlayerUseCase().execute(from, to, amount)
+        PayPlayerUseCase(walletRepository).execute(from, to, amount)
         Bukkit.getPluginManager().callEvent(PaidMoneyEvent(from, to, amount))
     }
 
@@ -131,7 +134,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun createAccount(player: UUID, defaultMoney: Int) {
         require(defaultMoney >= 0) { "Amount must be non-negative was $defaultMoney" }
 
-        CreateWalletUseCase().execute(player, defaultMoney)
+        CreateWalletUseCase(walletRepository).execute(player, defaultMoney)
     }
 
     /**
@@ -140,6 +143,6 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param player
      */
     fun deleteAccount(player: UUID) {
-        DeleteWalletUseCase().execute(player)
+        DeleteWalletUseCase(walletRepository).execute(player)
     }
 }
