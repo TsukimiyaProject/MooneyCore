@@ -11,8 +11,6 @@ class PayPlayerUseCase {
     private val repository = WalletRepositoryImpl()
 
     fun execute(from: UUID, to: UUID, amount: Int) {
-        require(amount >= 0) { "Amount must be non-negative, was $amount" }
-
         transaction {
             val fromMoney = repository.find(from) ?: throw WalletNotFoundException(from)
             val toMoney = repository.find(to) ?: throw WalletNotFoundException(to)

@@ -76,6 +76,8 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param amount
      */
     fun setMoney(player: UUID, amount: Int) {
+        require(amount >= 0) { "Amount must be non-negative was $amount" }
+
         StoreMoneyUseCase().execute(player, amount)
         Bukkit.getPluginManager().callEvent(SetMoneyEvent(player, amount))
     }
@@ -87,6 +89,8 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param amount
      */
     fun increaseMoney(player: UUID, amount: Int) {
+        require(amount >= 0) { "Amount must be non-negative was $amount" }
+
         IncreaseMoneyUseCase().execute(player, amount)
         Bukkit.getPluginManager().callEvent(IncreasedMoneyEvent(player, amount))
     }
@@ -98,6 +102,8 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param amount
      */
     fun decreaseMoney(player: UUID, amount: Int) {
+        require(amount >= 0) { "Amount must be non-negative was $amount" }
+
         DecreaseMoneyUseCase().execute(player, amount)
         Bukkit.getPluginManager().callEvent(DecreasedMoneyEvent(player, amount))
     }
@@ -110,6 +116,8 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param amount
      */
     fun payMoney(from: UUID, to: UUID, amount: Int) {
+        require(amount >= 0) { "Amount must be non-negative was $amount" }
+
         PayPlayerUseCase().execute(from, to, amount)
         Bukkit.getPluginManager().callEvent(PaidMoneyEvent(from, to, amount))
     }
@@ -121,6 +129,8 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param defaultMoney
      */
     fun createAccount(player: UUID, defaultMoney: Int) {
+        require(defaultMoney >= 0) { "Amount must be non-negative was $defaultMoney" }
+
         CreateWalletUseCase().execute(player, defaultMoney)
     }
 
