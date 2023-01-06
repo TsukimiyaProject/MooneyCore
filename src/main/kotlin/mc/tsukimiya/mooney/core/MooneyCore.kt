@@ -1,7 +1,6 @@
 package mc.tsukimiya.mooney.core
 
 import mc.tsukimiya.lib4b.command.CommandRegistrar
-import mc.tsukimiya.lib4b.db.DatabaseConnector
 import mc.tsukimiya.lib4b.lang.MessageFormatter
 import mc.tsukimiya.mooney.core.command.MoneyCommand
 import mc.tsukimiya.mooney.core.command.MoneySetCommand
@@ -9,6 +8,7 @@ import mc.tsukimiya.mooney.core.event.DecreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.IncreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
+import mc.tsukimiya.mooney.core.infrastructure.DatabaseConnector
 import mc.tsukimiya.mooney.core.infrastructure.table.Wallets
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
@@ -39,7 +39,7 @@ class MooneyCore : JavaPlugin(), Listener {
 
         formatter = MessageFormatter(config)
         registerCommands()
-        connectDB()
+        connect()
     }
 
     private fun registerCommands() {
@@ -47,8 +47,8 @@ class MooneyCore : JavaPlugin(), Listener {
         registrar.registerCommand(MoneyCommand(), MoneySetCommand())
     }
 
-    private fun connectDB() {
-        DatabaseConnector.connect(config)
+    private fun connect() {
+        DatabaseConnector().connect(config)
         transaction {
             SchemaUtils.create(Wallets)
         }

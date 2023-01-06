@@ -27,9 +27,13 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:${mcVersion}-R0.1-SNAPSHOT")
-    compileOnly("mc.tsukimiya:lib4b:1.0.1")
+    compileOnly("mc.tsukimiya:lib4b:1.0.2")
     library(kotlin("stdlib"))
+    library("org.jetbrains.exposed:exposed-core:0.41.1")
+    library("org.jetbrains.exposed:exposed-jdbc:0.41.1")
     library("org.jetbrains.exposed:exposed-dao:0.41.1")
+    library("org.xerial:sqlite-jdbc:3.40.0.0")
+    library("com.mysql:mysql-connector-j:8.0.31")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
