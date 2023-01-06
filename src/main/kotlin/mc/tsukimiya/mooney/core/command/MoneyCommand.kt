@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class MoneyCommand : BaseCommand("money") {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        val money = MooneyCore.getInstance().getMoney((sender as Player).uniqueId)
+        val money = MooneyCore.instance.getMoney((sender as Player).uniqueId)
         sender.sendMessage("所持金は${money}です")
         return true
     }
