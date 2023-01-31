@@ -51,7 +51,7 @@ bukkit {
     commands {
         register("money") {
             description = "お金に関するコマンド"
-            permission = "tsukimiya.mooney.core.show"
+            permission = "tsukimiya.mooney.core.money"
             usage = "/money [show|pay|plus|minus|set|top|help]"
         }
     }
@@ -59,8 +59,8 @@ bukkit {
     permissions {
         register("tsukimiya.mooney.core.*") {
             children = listOf(
+                "tsukimiya.mooney.core.money",
                 "tsukimiya.mooney.core.show",
-                "tsukimiya.mooney.core.show.other",
                 "tsukimiya.mooney.core.pay",
                 "tsukimiya.mooney.core.plus",
                 "tsukimiya.mooney.core.minus",
@@ -69,10 +69,10 @@ bukkit {
                 "tsukimiya.mooney.core.help",
             )
         }
-        register("tsukimiya.mooney.core.show") {
+        register("tsukimiya.mooney.core.money") {
             default = BukkitPluginDescription.Permission.Default.TRUE
         }
-        register("tsukimiya.mooney.core.show.other") {
+        register("tsukimiya.mooney.core.show") {
             default = BukkitPluginDescription.Permission.Default.OP
         }
         register("tsukimiya.mooney.core.pay") {
