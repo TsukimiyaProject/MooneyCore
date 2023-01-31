@@ -3,9 +3,12 @@ default-money: 1000
 command:
   general:
     not-found-player: "%ERROR% %0のデータは存在しません。"
-  setmoney:
-    success: "%SUCCESS% %0の所持金を%1に設定しました。"
+    negative-amount: "%ERROR% マイナスの値は設定できません。"
+  set-money:
+    success: "%SUCCESS% %0の所持金を%1円に設定しました。"
     usage: "/money set <プレイヤー名> <金額>"
+  show-money:
+    success: "%SUCCESS% %0の所持金は%1円です。"
 
 
 # sqlite or mysql
