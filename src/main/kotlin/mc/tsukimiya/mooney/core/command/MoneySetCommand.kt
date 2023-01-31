@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender
 
 class MoneySetCommand : BaseSubCommand(
     "set",
-    MooneyCore.instance.formatter.formatMessage("command.setmoney.usage"),
+    MooneyCore.instance.formatter.formatMessage("command.set-money.usage"),
     "tsukimiya.mooney.core.set"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
@@ -28,14 +28,12 @@ class MoneySetCommand : BaseSubCommand(
         try {
             MooneyCore.instance.setMoney(target, amount)
             sender.sendMessage(
-                MooneyCore.instance.formatter.formatMessage(
-                    "command.setmoney.success",
-                    args[0],
-                    args[1]
-                )
+                MooneyCore.instance.formatter.formatMessage("command.set-money.success", args[0], args[1])
             )
         } catch (e: WalletNotFoundException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
+        } catch (e: IllegalArgumentException) {
+            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.negative-amount"))
         }
 
         return true
