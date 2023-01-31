@@ -1,4 +1,4 @@
-package mc.tsukimiya.mooney.core.infrastructure
+package mc.tsukimiya.mooney.core.config
 
 import mc.tsukimiya.lib4b.config.exception.ConfigKeyNotFoundException
 import mc.tsukimiya.lib4b.config.exception.InvalidConfigValueException

@@ -9,7 +9,7 @@ import mc.tsukimiya.mooney.core.event.DecreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.IncreasedMoneyEvent
 import mc.tsukimiya.mooney.core.event.PaidMoneyEvent
 import mc.tsukimiya.mooney.core.event.SetMoneyEvent
-import mc.tsukimiya.mooney.core.infrastructure.DatabaseConnector
+import mc.tsukimiya.mooney.core.config.DatabaseConnector
 import mc.tsukimiya.mooney.core.infrastructure.dao.Wallets
 import mc.tsukimiya.mooney.core.infrastructure.repository.newInstance
 import mc.tsukimiya.mooney.core.usecase.*
