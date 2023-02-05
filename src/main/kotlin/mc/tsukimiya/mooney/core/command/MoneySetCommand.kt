@@ -14,7 +14,7 @@ class MoneySetCommand : BaseSubCommand(
     "tsukimiya.mooney.core.set"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if (args == null || args.size < 2 || !Validation.isInt(args[1])) {
+        if (args == null || args.size < 2 || !Validation.isNaturalNumber(args[1])) {
             return false
         }
 
