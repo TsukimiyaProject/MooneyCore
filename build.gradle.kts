@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:${mcVersion}-R0.1-SNAPSHOT")
-    compileOnly("mc.tsukimiya:lib4b:1.0.2")
+    compileOnly("mc.tsukimiya:lib4b:1.1.0")
     library(kotlin("stdlib"))
     library("org.jetbrains.exposed:exposed-core:0.41.1")
     library("org.jetbrains.exposed:exposed-jdbc:0.41.1")
