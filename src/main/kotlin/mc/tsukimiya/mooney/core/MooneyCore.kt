@@ -3,6 +3,7 @@ package mc.tsukimiya.mooney.core
 import mc.tsukimiya.lib4b.command.CommandRegistrar
 import mc.tsukimiya.lib4b.lang.MessageFormatter
 import mc.tsukimiya.mooney.core.command.MoneyCommand
+import mc.tsukimiya.mooney.core.command.MoneyPlusCommand
 import mc.tsukimiya.mooney.core.command.MoneySetCommand
 import mc.tsukimiya.mooney.core.command.MoneyShowCommand
 import mc.tsukimiya.mooney.core.domain.WalletRepository
@@ -48,7 +49,7 @@ class MooneyCore : JavaPlugin(), Listener {
 
     private fun registerCommands() {
         val registrar = CommandRegistrar(this)
-        registrar.registerCommand(MoneyCommand(), MoneySetCommand(), MoneyShowCommand())
+        registrar.registerCommand(MoneyCommand(), MoneySetCommand(), MoneyShowCommand(), MoneyPlusCommand())
     }
 
     private fun connect() {
