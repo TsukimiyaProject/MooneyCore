@@ -4,15 +4,18 @@ command:
   general:
     not-found-player: "%ERROR% %0のデータは存在しません。"
     negative-amount: "%ERROR% マイナスの値は設定できません。"
-    less-than-zero: "%ERROR% %0の所持金が0以下になるため、この操作はできません。"
+    less-than-zero: "%ERROR% 所持金が0以下になるため、この操作はできません。"
   money:
     success: "%INFO% あなたの所持金は%0円です。"
-  set-money:
+  set:
     success: "%SUCCESS% %0の所持金を%1円に設定しました。"
     usage: "/money set <プレイヤー名> <金額>"
-  show-money:
+  show:
     success: "%INFO% %0の所持金は%1円です。"
     usage: "/money show <プレイヤー名>"
+  plus:
+    success: "%SUCCESS% %0の所持金を%1円増やしました。"
+    usage: "/money plus <プレイヤー名> <金額>"
 
 # sqlite or mysql
 db-type: sqlite

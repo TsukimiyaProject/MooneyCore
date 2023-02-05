@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender
 
 class MoneyShowCommand : BaseSubCommand(
     "show",
-    MooneyCore.instance.formatter.formatMessage("command.show-money.usage"),
+    MooneyCore.instance.formatter.formatMessage("command.show.usage"),
     "tsukimiya.mooney.core.show"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
