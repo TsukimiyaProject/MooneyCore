@@ -5,6 +5,8 @@ import mc.tsukimiya.lib4b.config.exception.InvalidConfigValueException
 import org.bukkit.configuration.file.FileConfiguration
 import org.jetbrains.exposed.sql.Database
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class DatabaseConnector {
     fun connect(config: FileConfiguration) {
@@ -13,7 +15,8 @@ class DatabaseConnector {
                 val fileName = config.getString("sqlite.file") ?: throw ConfigKeyNotFoundException("sqlite.file")
                 val file = File("database" + File.separator + fileName)
                 if (!file.exists()) {
-                    file.createNewFile()
+                    Files.createDirectories(Paths.get(file.parent))
+                    Files.createFile(Paths.get(file.path))
                 }
                 Database.connect("jdbc:sqlite:${file.path}", "org.sqlite.JDBC")
             }
