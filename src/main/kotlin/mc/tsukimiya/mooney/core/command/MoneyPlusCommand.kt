@@ -26,8 +26,7 @@ class MoneyPlusCommand : BaseSubCommand(
 
         val amount = args[1].toInt()
         try {
-            val current = MooneyCore.instance.getMoney(target)
-            MooneyCore.instance.setMoney(target, current + amount)
+            MooneyCore.instance.increaseMoney(target, amount)
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.plus.success", args[0], args[1]))
         } catch (e: WalletNotFoundException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
