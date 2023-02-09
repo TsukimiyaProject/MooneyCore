@@ -16,6 +16,9 @@ command:
   plus:
     success: "%SUCCESS% %0の所持金を%1円増やしました。"
     usage: "/money plus <プレイヤー名> <金額>"
+  minus:
+    success: "%SUCCESS% %0の所持金を%1円減らしました。"
+    usage: "/money minus <プレイヤー名> <金額>"
 
 # sqlite or mysql
 db-type: sqlite
