@@ -2,9 +2,9 @@ package mc.tsukimiya.mooney.core.event
 
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
-import java.util.*
+import java.util.UUID
 
-class PaidMoneyEvent(val fromPlayer: UUID, val toPlayer: UUID, val amount: Int) : Event() {
+class MoneyAmountChangedEvent(val player: UUID) : Event() {
     companion object {
         private val handlerList = HandlerList()
 
