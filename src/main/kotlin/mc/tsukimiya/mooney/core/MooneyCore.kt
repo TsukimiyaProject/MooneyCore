@@ -48,7 +48,8 @@ class MooneyCore : JavaPlugin(), Listener {
             MoneySetCommand(),
             MoneyShowCommand(),
             MoneyPlusCommand(),
-            MoneyMinusCommand()
+            MoneyMinusCommand(),
+            MoneyPayCommand()
         )
     }
 
