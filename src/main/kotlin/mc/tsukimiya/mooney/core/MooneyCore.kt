@@ -138,6 +138,7 @@ class MooneyCore : JavaPlugin(), Listener {
         require(defaultMoney >= 0) { "Amount must be non-negative was $defaultMoney" }
 
         CreateWalletUseCase(walletRepository).execute(player, defaultMoney)
+        Bukkit.getPluginManager().callEvent(CreateWalletEvent(player))
     }
 
     /**
