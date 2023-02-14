@@ -26,7 +26,7 @@ class MoneyShowCommand : BaseSubCommand(
         try {
             val amount = MooneyCore.instance.getMoney(target)
             sender.sendMessage(
-                MooneyCore.instance.formatter.formatMessage("command.show-money.success", args[0], amount.toString())
+                MooneyCore.instance.formatter.formatMessage("command.show.success", args[0], amount.toString())
             )
         } catch (e: WalletNotFoundException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))

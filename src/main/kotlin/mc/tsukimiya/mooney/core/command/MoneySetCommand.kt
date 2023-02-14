@@ -28,7 +28,7 @@ class MoneySetCommand : BaseSubCommand(
         try {
             MooneyCore.instance.setMoney(target, amount)
             sender.sendMessage(
-                MooneyCore.instance.formatter.formatMessage("command.set-money.success", args[0], args[1])
+                MooneyCore.instance.formatter.formatMessage("command.set.success", args[0], args[1])
             )
         } catch (e: WalletNotFoundException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
