@@ -4,7 +4,7 @@ command:
   general:
     not-found-player: "%ERROR% %0のデータは存在しません。"
     negative-amount: "%ERROR% マイナスの値は設定できません。"
-    less-than-zero: "%ERROR% 所持金が0以下になるため、この操作はできません。"
+    less-than-zero: "%ERROR% 所持金が0円以下になるため、この操作はできません。"
   money:
     success: "%INFO% あなたの所持金は%0円です。"
   set:
