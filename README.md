@@ -27,10 +27,49 @@
 ## 依存プラグイン
 - [Lib4B](https://github.com/TsukimiyaProject/Lib4B)
 
-## API
-こんな感じで使う
+## サンプルコード
+### import文
 ```kotlin
 import mc.tsukimiya.mooney.core.MooneyCore
-
-val money = MooneyCore.instance.getMoney(playerUUID)
 ```
+
+### 所持金を取得する
+```kotlin
+// @param player UUID プレイヤーのUUID
+val money: Int = MooneyCore.instance.getMoney(player)
+```
+
+### 所持金を設定する
+```kotlin
+// @param amount Int 金額
+MooneyCore.instance.setMoney(player, amount)
+```
+
+### 所持金を増やす
+```kotlin
+MooneyCore.instance.increaseMoney(player, amount)
+```
+
+### 所持金を減らす
+```kotlin
+MooneyCore.instance.decreaseMoney(player, amount)
+```
+
+### 所持金を支払う
+```kotlin
+// @param from UUID 支払元 
+// @param to   UUID 支払先
+MooneyCore.instance.payMoney(from, to, amount)
+```
+
+### アカウント作成(使用非推奨)
+```kotlin
+// @param defaultMoney Int 初期所持金
+MooneyCore.instance.createAccount(player, defaultMoney)
+```
+
+### アカウント削除(使用非推奨)
+```kotlin
+MooneyCore.instance.deleteAccount(player)
+```
+
