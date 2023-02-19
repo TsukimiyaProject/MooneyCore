@@ -22,6 +22,14 @@ command:
   pay:
     success: "%SUCCESS% %0に%1円支払いました。"
     usage: "/money pay <プレイヤー名> <金額>"
+  help:
+    header: "===== moneyコマンド一覧&使い方 ====="
+    money: "自分の所持金を表示する：/money"
+    pay: "お金を払う：/money pay <プレイヤー名> <金額>"
+    show: "他人の所持金を表示する：/money show <プレイヤー名>"
+    set: "所持金を設定する：/money set <プレイヤー名> <金額>"
+    plus: "所持金を増やす：/money plus <プレイヤー名> <金額>"
+    minus: "所持金を減らす：/money minus <プレイヤー名> <金額>"
 
 # sqlite or mysql
 db-type: sqlite

@@ -67,6 +67,7 @@ bukkit {
                 "tsukimiya.mooney.core.set",
                 "tsukimiya.mooney.core.top",
                 "tsukimiya.mooney.core.help",
+                "tsukimiya.mooney.core.help.op"
             )
         }
         register("tsukimiya.mooney.core.money") {
@@ -92,6 +93,9 @@ bukkit {
         }
         register("tsukimiya.mooney.core.help") {
             default = BukkitPluginDescription.Permission.Default.TRUE
+        }
+        register("tsukimiya.mooney.core.help.op") {
+            default = BukkitPluginDescription.Permission.Default.OP
         }
     }
 }

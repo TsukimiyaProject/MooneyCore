@@ -33,12 +33,17 @@ class MooneyCore : JavaPlugin(), Listener {
     override fun onEnable() {
         dataFolder.mkdir()
         saveDefaultConfig()
+        config.options().copyDefaults(true)
+        saveConfig()
 
         server.pluginManager.registerEvents(this, this)
 
         formatter = MessageFormatter(config)
         registerCommands()
         connect()
+    }
+
+    override fun onDisable() {
     }
 
     private fun registerCommands() {
@@ -49,7 +54,8 @@ class MooneyCore : JavaPlugin(), Listener {
             MoneyShowCommand(),
             MoneyPlusCommand(),
             MoneyMinusCommand(),
-            MoneyPayCommand()
+            MoneyPayCommand(),
+            MoneyHelpCommand()
         )
     }
 
