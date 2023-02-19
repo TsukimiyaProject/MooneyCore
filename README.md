@@ -11,6 +11,9 @@
 | /money plus | `<player>` `<amount>` | `<player>`の所持金を`<amount>`増やす | `OP` `Console` |
 | /money minus | `<player>` `<amount>` | `<player>`の所持金を`<amount>`減らす | `OP` `Console` |
 
+## 依存プラグイン
+- [Lib4B](https://github.com/TsukimiyaProject/Lib4B)
+
 ## API
 こんな感じで使う
 ```kotlin
