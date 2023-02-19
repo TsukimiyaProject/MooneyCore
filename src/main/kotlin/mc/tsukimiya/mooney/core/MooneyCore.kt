@@ -5,8 +5,8 @@ import mc.tsukimiya.lib4b.lang.MessageFormatter
 import mc.tsukimiya.mooney.core.command.*
 import mc.tsukimiya.mooney.core.config.DatabaseConnector
 import mc.tsukimiya.mooney.core.domain.WalletRepository
-import mc.tsukimiya.mooney.core.event.*
-import mc.tsukimiya.mooney.core.infrastructure.dao.Wallets
+import mc.tsukimiya.mooney.core.event.CreateWalletEvent
+import mc.tsukimiya.mooney.core.event.MoneyAmountChangedEvent
 import mc.tsukimiya.mooney.core.infrastructure.repository.newInstance
 import mc.tsukimiya.mooney.core.usecase.*
 import org.bukkit.Bukkit
@@ -14,8 +14,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class MooneyCore : JavaPlugin(), Listener {
@@ -37,13 +35,9 @@ class MooneyCore : JavaPlugin(), Listener {
         saveConfig()
 
         server.pluginManager.registerEvents(this, this)
-
         formatter = MessageFormatter(config)
         registerCommands()
-        connect()
-    }
-
-    override fun onDisable() {
+        DatabaseConnector().connect(config)
     }
 
     private fun registerCommands() {
@@ -57,13 +51,6 @@ class MooneyCore : JavaPlugin(), Listener {
             MoneyPayCommand(),
             MoneyHelpCommand()
         )
-    }
-
-    private fun connect() {
-        DatabaseConnector().connect(config)
-        transaction {
-            SchemaUtils.create(Wallets)
-        }
     }
 
     @EventHandler
