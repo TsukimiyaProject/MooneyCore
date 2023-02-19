@@ -1,6 +1,6 @@
 package mc.tsukimiya.mooney.core.domain
 
-class MoneyAmountChanger {
+class MoneyAmountChangeService {
     fun increase(money: Money, amount: Int): Money {
         return Money(money.amount + amount)
     }
