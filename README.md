@@ -18,3 +18,7 @@ import mc.tsukimiya.mooney.core.MooneyCore
 
 val money = MooneyCore.instance.getMoney(playerUUID)
 ```
+
+## 実装予定
+- ランキング表示
+- ヘルプコマンド
