@@ -14,7 +14,7 @@ class MoneyPlusCommand : BaseSubCommand(
     "tsukimiya.mooney.core.plus"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if (args == null || args.size < 2 || !Validation.isNaturalNumber(args[1])) {
+        if (args == null || args.size != 2 || !Validation.isInt(args[1])) {
             return false
         }
 
@@ -30,6 +30,8 @@ class MoneyPlusCommand : BaseSubCommand(
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.plus.success", args[0], args[1]))
         } catch (e: WalletNotFoundException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
+        } catch (e: IllegalArgumentException) {
+            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.negative-amount"))
         }
 
         return true

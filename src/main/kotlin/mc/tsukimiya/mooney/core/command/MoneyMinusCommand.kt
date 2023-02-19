@@ -15,7 +15,7 @@ class MoneyMinusCommand : BaseSubCommand(
     "tsukimiya.mooney.core.minus"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if (args == null || args.size < 2 || !Validation.isNaturalNumber(args[1])) {
+        if (args == null || args.size != 2 || !Validation.isInt(args[1])) {
             return false
         }
 
@@ -33,6 +33,8 @@ class MoneyMinusCommand : BaseSubCommand(
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
         } catch (e: InvalidMoneyAmountException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.less-than-zero", args[0]))
+        } catch (e: IllegalArgumentException) {
+            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.negative-amount"))
         }
 
         return true
