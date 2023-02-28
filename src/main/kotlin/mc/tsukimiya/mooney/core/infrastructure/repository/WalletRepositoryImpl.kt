@@ -1,44 +1,45 @@
 package mc.tsukimiya.mooney.core.infrastructure.repository
 
 import mc.tsukimiya.mooney.core.domain.Money
+import mc.tsukimiya.mooney.core.domain.Wallet
 import mc.tsukimiya.mooney.core.domain.WalletRepository
-import mc.tsukimiya.mooney.core.infrastructure.dao.Wallet
 import java.util.*
+import mc.tsukimiya.mooney.core.infrastructure.dao.Wallet as WalletDao
 
 class WalletRepositoryImpl : WalletRepository {
-    override fun exists(id: UUID): Boolean {
-        return Wallet.findById(id) != null
+    override fun exists(owner: UUID): Boolean {
+        return WalletDao.findById(owner) != null
     }
 
-    override fun find(id: UUID): Money? {
-        val wallet = Wallet.findById(id)
-        return if (wallet != null) Money(wallet.money) else null
+    override fun find(owner: UUID): Wallet? {
+        val wallet = WalletDao.findById(owner) ?: return null
+        return Wallet(owner, Money(wallet.money))
     }
 
-    override fun findAll(): Map<UUID, Money> {
-        val wallets = mutableMapOf<UUID, Money>()
-        Wallet.all().forEach {
-            wallets[it.id.value] = Money(it.money)
+    override fun findAll(): Map<UUID, Wallet> {
+        val wallets = mutableMapOf<UUID, Wallet>()
+        WalletDao.all().forEach {
+            wallets[it.id.value] = Wallet(it.id.value, Money(it.money))
         }
 
         return wallets
     }
 
     override fun count(): Long {
-        return Wallet.count()
+        return WalletDao.count()
     }
 
-    override fun save(id: UUID, money: Money) {
-        val wallet = Wallet.findById(id)
-        wallet?.money = money.amount
+    override fun store(wallet: Wallet) {
+        val walletDao = WalletDao.findById(wallet.owner)
+        if (walletDao != null) {
+            walletDao.money = wallet.money.amount
+        } else {
+            WalletDao.new(wallet.owner) { this.money = wallet.money.amount }
+        }
     }
 
-    override fun create(id: UUID, defaultMoney: Money) {
-        Wallet.new(id) { this.money = defaultMoney.amount }
-    }
-
-    override fun delete(id: UUID) {
-        val wallet = Wallet.findById(id)
+    override fun delete(owner: UUID) {
+        val wallet = WalletDao.findById(owner)
         wallet?.delete()
     }
 }
