@@ -9,7 +9,7 @@ class FetchMoneyUseCase(private val repository: WalletRepository) {
     fun execute(id: UUID): Int {
         return transaction {
             val wallet = repository.find(id) ?: throw WalletNotFoundException(id)
-            wallet.amount
+            wallet.money.amount
         }
     }
 }
