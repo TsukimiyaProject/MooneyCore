@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "mc.tsukimiya.mooney"
-version = "1.0.1"
+version = "1.0.2"
 
 val mcVersion = "1.19.3"
 
