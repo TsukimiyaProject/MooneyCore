@@ -1,7 +1,7 @@
 package mc.tsukimiya.mooney.core.usecase
 
 import mc.tsukimiya.mooney.core.domain.WalletRepository
-import mc.tsukimiya.mooney.core.exception.WalletNotFoundException
+import mc.tsukimiya.mooney.core.domain.exception.WalletNotFoundException
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 

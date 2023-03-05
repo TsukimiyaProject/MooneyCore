@@ -2,7 +2,7 @@ package mc.tsukimiya.mooney.core.command
 
 import mc.tsukimiya.lib4b.command.BaseSubCommand
 import mc.tsukimiya.mooney.core.MooneyCore
-import mc.tsukimiya.mooney.core.exception.WalletNotFoundException
+import mc.tsukimiya.mooney.core.domain.exception.WalletNotFoundException
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
