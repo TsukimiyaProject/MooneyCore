@@ -22,7 +22,7 @@ class MooneyCore : JavaPlugin(), Listener {
     }
 
     lateinit var formatter: MessageFormatter
-    private val walletRepository = WalletRepository.newInstance()
+    val walletRepository = WalletRepository.newInstance()
 
     override fun onLoad() {
         instance = this
