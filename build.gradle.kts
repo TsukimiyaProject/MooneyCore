@@ -32,9 +32,9 @@ dependencies {
     library("org.jetbrains.exposed:exposed-core:0.41.1")
     library("org.jetbrains.exposed:exposed-jdbc:0.41.1")
     library("org.jetbrains.exposed:exposed-dao:0.41.1")
-    library("org.xerial:sqlite-jdbc:3.40.0.0")
-    library("com.mysql:mysql-connector-j:8.0.31")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    library("org.xerial:sqlite-jdbc:3.40.1.0")
+    library("com.mysql:mysql-connector-j:8.0.32")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
