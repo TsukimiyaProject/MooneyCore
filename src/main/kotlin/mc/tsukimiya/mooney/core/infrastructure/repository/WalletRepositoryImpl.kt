@@ -30,11 +30,11 @@ class WalletRepositoryImpl : AccountRepository {
     }
 
     override fun store(wallet: Account) {
-        val walletDao = WalletDao.findById(wallet.owner)
+        val walletDao = WalletDao.findById(wallet.id)
         if (walletDao != null) {
             walletDao.money = wallet.money.amount
         } else {
-            WalletDao.new(wallet.owner) { this.money = wallet.money.amount }
+            WalletDao.new(wallet.id) { this.money = wallet.money.amount }
         }
     }
 

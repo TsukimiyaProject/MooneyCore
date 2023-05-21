@@ -6,7 +6,7 @@ import mc.tsukimiya.mooney.core.domain.AccountRepository
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.UUID
 
-class CreateWalletUseCase(private val repository: AccountRepository) {
+class CreateAccountUseCase(private val repository: AccountRepository) {
     fun execute(id: UUID, defaultMoney: Int) {
         transaction {
             if (!repository.exists(id)) {

@@ -2,7 +2,7 @@ package mc.tsukimiya.mooney.core.command
 
 import mc.tsukimiya.lib4b.command.BaseSubCommand
 import mc.tsukimiya.mooney.core.MooneyCore
-import mc.tsukimiya.mooney.core.exception.WalletNotFoundException
+import mc.tsukimiya.mooney.core.exception.AccountNotFoundException
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -28,7 +28,7 @@ class MoneyShowCommand : BaseSubCommand(
             sender.sendMessage(
                 MooneyCore.instance.formatter.formatMessage("command.show.success", args[0], amount.toString())
             )
-        } catch (e: WalletNotFoundException) {
+        } catch (e: AccountNotFoundException) {
             sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
         }
 
