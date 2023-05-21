@@ -5,9 +5,9 @@ import mc.tsukimiya.mooney.core.exception.InvalidMinecraftIdException
 /**
  * マイクラIDのクラス
  *
- * @property id
+ * @property value
  */
-data class MinecraftId(val id: String) {
+data class MinecraftId(val value: String) {
     init {
         // マイクラIDの条件
         // 英数字(A-Z、a-z、0-9)とアンダースコア(_)
@@ -16,8 +16,8 @@ data class MinecraftId(val id: String) {
 
         // パターンチェック
         // 条件に当てはまらなかったら例外投げる
-        if (!Regex(pattern).matches(id)) {
-            throw InvalidMinecraftIdException("Wrong name : $id")
+        if (!Regex(pattern).matches(value)) {
+            throw InvalidMinecraftIdException("Wrong name : $value")
         }
     }
 }
