@@ -4,7 +4,7 @@ import mc.tsukimiya.lib4b.command.CommandRegistrar
 import mc.tsukimiya.lib4b.lang.MessageFormatter
 import mc.tsukimiya.mooney.core.command.*
 import mc.tsukimiya.mooney.core.config.DatabaseConnector
-import mc.tsukimiya.mooney.core.domain.WalletRepository
+import mc.tsukimiya.mooney.core.domain.AccountRepository
 import mc.tsukimiya.mooney.core.event.CreateWalletEvent
 import mc.tsukimiya.mooney.core.event.MoneyAmountChangedEvent
 import mc.tsukimiya.mooney.core.infrastructure.repository.newInstance
@@ -22,7 +22,7 @@ class MooneyCore : JavaPlugin(), Listener {
     }
 
     lateinit var formatter: MessageFormatter
-    val walletRepository = WalletRepository.newInstance()
+    val walletRepository = AccountRepository.newInstance()
 
     override fun onLoad() {
         instance = this
