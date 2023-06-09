@@ -22,7 +22,7 @@ class MooneyCore : JavaPlugin(), Listener {
     }
 
     lateinit var formatter: MessageFormatter
-    val walletRepository = AccountRepository.newInstance()
+    private val accountRepository = AccountRepository.newInstance()
 
     override fun onLoad() {
         instance = this
@@ -55,7 +55,7 @@ class MooneyCore : JavaPlugin(), Listener {
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        createAccount(event.player.uniqueId, config.getInt("default-money"))
+        createAccount(event.player.uniqueId, event.player.name, config.getInt("default-money"))
     }
 
     /**
@@ -65,46 +65,46 @@ class MooneyCore : JavaPlugin(), Listener {
      * @return
      */
     fun getMoney(player: UUID): Int {
-        return FetchAccountUseCase(walletRepository).execute(player)
+        return FetchAccountUseCase(accountRepository).execute(player).money
     }
 
     /**
      * プレイヤーの所持金を設定する
      *
-     * @param player
+     * @param uuid
      * @param amount
      */
-    fun setMoney(player: UUID, amount: Int) {
+    fun setMoney(uuid: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        StoreAccountUseCase(walletRepository).execute(player, amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(player))
+        StoreAccountUseCase(accountRepository).execute(uuid, money = amount)
+        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(uuid))
     }
 
     /**
      * プレイヤーの所持金を増やす
      *
-     * @param player
+     * @param uuid
      * @param amount
      */
-    fun increaseMoney(player: UUID, amount: Int) {
+    fun increaseMoney(uuid: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        IncreaseMoneyUseCase(walletRepository).execute(player, amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(player))
+        IncreaseMoneyUseCase(accountRepository).execute(uuid, amount)
+        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(uuid))
     }
 
     /**
      * プレイヤーの所持金を減らす
      *
-     * @param player
+     * @param uuid
      * @param amount
      */
-    fun decreaseMoney(player: UUID, amount: Int) {
+    fun decreaseMoney(uuid: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        DecreaseMoneyUseCase(walletRepository).execute(player, amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(player))
+        DecreaseMoneyUseCase(accountRepository).execute(uuid, amount)
+        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(uuid))
     }
 
     /**
@@ -117,7 +117,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun payMoney(from: UUID, to: UUID, amount: Int) {
         require(amount >= 0) { "Amount must be non-negative was $amount" }
 
-        PayPlayerUseCase(walletRepository).execute(from, to, amount)
+        PayPlayerUseCase(accountRepository).execute(from, to, amount)
         Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(from))
         Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(to))
     }
@@ -128,11 +128,11 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param player
      * @param defaultMoney
      */
-    fun createAccount(player: UUID, defaultMoney: Int) {
+    fun createAccount(uuid: UUID, name: String, defaultMoney: Int) {
         require(defaultMoney >= 0) { "Amount must be non-negative was $defaultMoney" }
 
-        CreateAccountUseCase(walletRepository).execute(player, defaultMoney)
-        Bukkit.getPluginManager().callEvent(CreateWalletEvent(player))
+        StoreAccountUseCase(accountRepository).execute(uuid, name, defaultMoney)
+        Bukkit.getPluginManager().callEvent(CreateWalletEvent(uuid))
     }
 
     /**
@@ -141,6 +141,6 @@ class MooneyCore : JavaPlugin(), Listener {
      * @param player
      */
     fun deleteAccount(player: UUID) {
-        DeleteAccountUseCase(walletRepository).execute(player)
+        DeleteAccountUseCase(accountRepository).execute(player)
     }
 }
