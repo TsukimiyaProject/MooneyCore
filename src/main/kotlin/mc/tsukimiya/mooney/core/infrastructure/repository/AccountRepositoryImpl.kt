@@ -3,17 +3,14 @@ package mc.tsukimiya.mooney.core.infrastructure.repository
 import mc.tsukimiya.mooney.core.domain.Money
 import mc.tsukimiya.mooney.core.domain.Account
 import mc.tsukimiya.mooney.core.domain.AccountRepository
+import mc.tsukimiya.mooney.core.domain.MinecraftId
 import java.util.*
-import mc.tsukimiya.mooney.core.infrastructure.dao.Wallet as WalletDao
+import mc.tsukimiya.mooney.core.infrastructure.dao.Account as AccountDao
 
-class WalletRepositoryImpl : AccountRepository {
-    override fun exists(owner: UUID): Boolean {
-        return WalletDao.findById(owner) != null
-    }
-
+class AccountRepositoryImpl : AccountRepository {
     override fun find(owner: UUID): Account? {
-        val wallet = WalletDao.findById(owner) ?: return null
-        return Account(owner, Money(wallet.money))
+        val account = AccountDao.findById(owner) ?: return null
+        return Account(owner, MinecraftId(account.name), Money(account.money))
     }
 
     override fun findAll(): Map<UUID, Account> {
@@ -29,12 +26,12 @@ class WalletRepositoryImpl : AccountRepository {
         return WalletDao.count()
     }
 
-    override fun store(wallet: Account) {
-        val walletDao = WalletDao.findById(wallet.id)
+    override fun store(account: Account) {
+        val walletDao = WalletDao.findById(account.id)
         if (walletDao != null) {
-            walletDao.money = wallet.money.amount
+            walletDao.money = account.money.amount
         } else {
-            WalletDao.new(wallet.id) { this.money = wallet.money.amount }
+            WalletDao.new(account.id) { this.money = account.money.amount }
         }
     }
 

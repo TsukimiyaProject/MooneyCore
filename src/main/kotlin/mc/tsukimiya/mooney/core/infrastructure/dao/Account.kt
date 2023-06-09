@@ -5,8 +5,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class Wallet(id: EntityID<UUID>) : UUIDEntity(id) {
-    companion object : UUIDEntityClass<Wallet>(Wallets)
+class Account(id: EntityID<UUID>) : UUIDEntity(id) {
+    companion object : UUIDEntityClass<Account>(Accounts)
 
-    var money by Wallets.money
+    var name by Accounts.name
+    var money by Accounts.money
 }
