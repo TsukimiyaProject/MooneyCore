@@ -2,15 +2,16 @@ package mc.tsukimiya.mooney.core.command
 
 import mc.tsukimiya.lib4b.command.BaseSubCommand
 import mc.tsukimiya.lib4b.command.Validation
-import mc.tsukimiya.mooney.core.MooneyCore
+import mc.tsukimiya.lib4b.lang.MessageFormatter
+import mc.tsukimiya.mooney.core.MooneyCoreAPI
 import mc.tsukimiya.mooney.core.exception.AccountNotFoundException
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class MoneySetCommand : BaseSubCommand(
+class MoneySetCommand(private val formatter: MessageFormatter) : BaseSubCommand(
     "set",
-    MooneyCore.instance.formatter.formatMessage("command.set.usage"),
+    formatter.formatMessage("command.set.usage"),
     "tsukimiya.mooney.core.set"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
@@ -20,20 +21,20 @@ class MoneySetCommand : BaseSubCommand(
 
         val target = Bukkit.getPlayerUniqueId(args[0])
         if (target == null) {
-            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
+            sender.sendMessage(formatter.formatMessage("command.general.not-found-player", args[0]))
             return true
         }
 
         val amount = args[1].toInt()
         try {
-            MooneyCore.instance.setMoney(target, amount)
+            MooneyCoreAPI.setMoney(target, amount)
             sender.sendMessage(
-                MooneyCore.instance.formatter.formatMessage("command.set.success", args[0], args[1])
+                formatter.formatMessage("command.set.success", args[0], args[1])
             )
         } catch (e: AccountNotFoundException) {
-            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.not-found-player", args[0]))
+            sender.sendMessage(formatter.formatMessage("command.general.not-found-player", args[0]))
         } catch (e: IllegalArgumentException) {
-            sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.general.negative-amount"))
+            sender.sendMessage(formatter.formatMessage("command.general.negative-amount"))
         }
 
         return true

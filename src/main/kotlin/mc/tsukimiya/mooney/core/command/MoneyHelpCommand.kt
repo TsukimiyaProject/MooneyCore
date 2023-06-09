@@ -1,17 +1,16 @@
 package mc.tsukimiya.mooney.core.command
 
 import mc.tsukimiya.lib4b.command.BaseSubCommand
-import mc.tsukimiya.mooney.core.MooneyCore
+import mc.tsukimiya.lib4b.lang.MessageFormatter
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class MoneyHelpCommand : BaseSubCommand(
+class MoneyHelpCommand(private val formatter: MessageFormatter) : BaseSubCommand(
     "help",
-    MooneyCore.instance.formatter.formatMessage("command.help.usage"),
+    formatter.formatMessage("command.help.usage"),
     "tsukimiya.mooney.core.help"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        val formatter = MooneyCore.instance.formatter
         // 怒らないでね
         sender.sendMessage(formatter.formatMessage("command.help.header"))
         sender.sendMessage(formatter.formatMessage("command.help.money"))

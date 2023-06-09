@@ -1,15 +1,16 @@
 package mc.tsukimiya.mooney.core.command
 
 import mc.tsukimiya.lib4b.command.BaseCommand
-import mc.tsukimiya.mooney.core.MooneyCore
+import mc.tsukimiya.lib4b.lang.MessageFormatter
+import mc.tsukimiya.mooney.core.MooneyCoreAPI
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class MoneyCommand : BaseCommand("money") {
+class MoneyCommand(private val formatter: MessageFormatter) : BaseCommand("money") {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        val money = MooneyCore.instance.getMoney((sender as Player).uniqueId)
-        sender.sendMessage(MooneyCore.instance.formatter.formatMessage("command.money.success", money.toString()))
+        val money = MooneyCoreAPI.getMoney((sender as Player).uniqueId)
+        sender.sendMessage(formatter.formatMessage("command.money.success", money.toString()))
         return true
     }
 
