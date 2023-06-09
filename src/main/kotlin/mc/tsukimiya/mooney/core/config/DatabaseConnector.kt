@@ -2,7 +2,7 @@ package mc.tsukimiya.mooney.core.config
 
 import mc.tsukimiya.lib4b.config.exception.ConfigKeyNotFoundException
 import mc.tsukimiya.lib4b.config.exception.InvalidConfigValueException
-import mc.tsukimiya.mooney.core.infrastructure.dao.Wallets
+import mc.tsukimiya.mooney.core.infrastructure.dao.Accounts
 import org.bukkit.configuration.file.FileConfiguration
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -37,7 +37,7 @@ class DatabaseConnector {
         }
 
         transaction {
-            SchemaUtils.create(Wallets)
+            SchemaUtils.create(Accounts)
         }
     }
 }
