@@ -1,9 +1,9 @@
 package mc.tsukimiya.mooney.core.infrastructure.repository
 
-import mc.tsukimiya.mooney.core.domain.Money
 import mc.tsukimiya.mooney.core.domain.Account
 import mc.tsukimiya.mooney.core.domain.AccountRepository
 import mc.tsukimiya.mooney.core.domain.MinecraftId
+import mc.tsukimiya.mooney.core.domain.Money
 import java.util.*
 import mc.tsukimiya.mooney.core.infrastructure.dao.Account as AccountDao
 
@@ -13,32 +13,40 @@ class AccountRepositoryImpl : AccountRepository {
         return Account(owner, MinecraftId(account.name), Money(account.money))
     }
 
+    override fun findByName(name: MinecraftId): Account? {
+        TODO("Not yet implemented")
+    }
+
     override fun findAll(): Map<UUID, Account> {
-        val wallets = mutableMapOf<UUID, Account>()
-        WalletDao.all().forEach {
-            wallets[it.id.value] = Account(it.id.value, Money(it.money))
+        val accounts = mutableMapOf<UUID, Account>()
+        AccountDao.all().forEach {
+            accounts[it.id.value] = Account(it.id.value, MinecraftId(it.name), Money(it.money))
         }
 
-        return wallets
+        return accounts
     }
 
     override fun count(): Long {
-        return WalletDao.count()
+        return AccountDao.count()
     }
 
     override fun store(account: Account) {
-        val walletDao = WalletDao.findById(account.id)
-        if (walletDao != null) {
-            walletDao.money = account.money.amount
+        val accountDao = AccountDao.findById(account.id)
+        if (accountDao != null) {
+            accountDao.name = account.name.value
+            accountDao.money = account.money.amount
         } else {
-            WalletDao.new(account.id) { this.money = account.money.amount }
+            AccountDao.new(account.id) {
+                this.name = account.name.value
+                this.money = account.money.amount
+            }
         }
     }
 
     override fun delete(owner: UUID) {
-        val wallet = WalletDao.findById(owner)
-        wallet?.delete()
+        val account = AccountDao.findById(owner)
+        account?.delete()
     }
 }
 
-fun AccountRepository.Companion.newInstance(): AccountRepository = WalletRepositoryImpl()
+fun AccountRepository.Companion.newInstance(): AccountRepository = AccountRepositoryImpl()
