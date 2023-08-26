@@ -3,7 +3,7 @@ package mc.tsukimiya.mooney.core.domain
 /**
  * お金の支払いを実現するサービスクラス
  */
-class PayMoneyService {
+class MoneyService {
     /**
      * 支払う
      *
