@@ -9,7 +9,7 @@ import java.util.*
  * @property name  マイクラのID
  * @property money 所持金
  */
-class Account(val id: UUID, var name: MinecraftId, var money: Money) {
+class Account(val id: UUID, var name: Name, var money: Money) {
     /**
      * 所持金をmoneyの量だけ増やす
      *

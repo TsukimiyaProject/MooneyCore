@@ -19,7 +19,7 @@ interface AccountRepository {
      * @param name
      * @return 見つからなければnullを返す
      */
-    fun findByName(name: MinecraftId): Account?
+    fun findByName(name: Name): Account?
 
     /**
      * 全アカウント取得

@@ -2,7 +2,7 @@ package mc.tsukimiya.mooney.core.usecase
 
 import mc.tsukimiya.mooney.core.domain.Account
 import mc.tsukimiya.mooney.core.domain.AccountRepository
-import mc.tsukimiya.mooney.core.domain.MinecraftId
+import mc.tsukimiya.mooney.core.domain.Name
 import mc.tsukimiya.mooney.core.domain.Money
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
@@ -28,13 +28,13 @@ class StoreAccountUseCase(private val repository: AccountRepository) {
 
             if (account != null) {
                 // 引数がnullでなければ値の変更があるとみなし、代入を行う
-                if (name != null) account.name = MinecraftId(name)
+                if (name != null) account.name = Name(name)
                 if (money != null) account.money = Money(money)
             } else {
                 require(name != null)
                 require(money != null)
 
-                account = Account(id, MinecraftId(name), Money(money))
+                account = Account(id, Name(name), Money(money))
             }
 
             repository.store(account)

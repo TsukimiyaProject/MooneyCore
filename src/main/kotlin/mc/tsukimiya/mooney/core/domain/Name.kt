@@ -7,7 +7,7 @@ import mc.tsukimiya.mooney.core.exception.InvalidMinecraftIdException
  *
  * @property value
  */
-data class MinecraftId(val value: String) {
+data class Name(val value: String) {
     init {
         // マイクラIDの条件
         // 英数字(A-Z、a-z、0-9)とアンダースコア(_)
