@@ -63,7 +63,7 @@ class MooneyCore : JavaPlugin(), Listener {
      * @return
      */
     fun getMoney(player: UUID): Int {
-        return FetchAccountUseCase(accountRepository).execute(player).money
+        return FindAccountUseCase(accountRepository).execute(player).money
     }
 
     /**
