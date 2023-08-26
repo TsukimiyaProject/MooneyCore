@@ -3,7 +3,7 @@ package mc.tsukimiya.mooney.core.command
 import mc.tsukimiya.lib4b.command.BaseSubCommand
 import mc.tsukimiya.lib4b.command.Validation
 import mc.tsukimiya.lib4b.lang.MessageFormatter
-import mc.tsukimiya.mooney.core.MooneyCoreAPI
+import mc.tsukimiya.mooney.core.MooneyCore
 import mc.tsukimiya.mooney.core.exception.AccountNotFoundException
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -27,7 +27,7 @@ class MoneyPlusCommand(private val formatter: MessageFormatter) : BaseSubCommand
 
         val amount = args[1].toInt()
         try {
-            MooneyCoreAPI.increaseMoney(target, amount)
+            MooneyCore.instance.increaseMoney(target, amount)
             sender.sendMessage(formatter.formatMessage("command.plus.success", args[0], args[1]))
         } catch (e: AccountNotFoundException) {
             sender.sendMessage(formatter.formatMessage("command.general.not-found-player", args[0]))
