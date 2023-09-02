@@ -1,6 +1,6 @@
 package mc.tsukimiya.mooney.core.domain
 
-import mc.tsukimiya.mooney.core.exception.InvalidMinecraftIdException
+import mc.tsukimiya.mooney.core.exception.InvalidNameException
 
 /**
  * マイクラIDのクラス
@@ -17,7 +17,7 @@ data class Name(val value: String) {
         // パターンチェック
         // 条件に当てはまらなかったら例外投げる
         if (!Regex(pattern).matches(value)) {
-            throw InvalidMinecraftIdException("Wrong name : $value")
+            throw InvalidNameException("Wrong name : $value")
         }
     }
 }
