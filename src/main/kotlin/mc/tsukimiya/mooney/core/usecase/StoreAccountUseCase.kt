@@ -2,8 +2,9 @@ package mc.tsukimiya.mooney.core.usecase
 
 import mc.tsukimiya.mooney.core.domain.Account
 import mc.tsukimiya.mooney.core.domain.AccountRepository
-import mc.tsukimiya.mooney.core.domain.Name
 import mc.tsukimiya.mooney.core.domain.Money
+import mc.tsukimiya.mooney.core.domain.Name
+import mc.tsukimiya.mooney.core.usecase.dto.AccountDto
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
@@ -21,8 +22,8 @@ class StoreAccountUseCase(private val repository: AccountRepository) {
      * @param money 変更があるときに代入
      * @param name  変更があるときに代入
      */
-    fun execute(id: UUID, money: ULong? = null, name: String? = null) {
-        transaction {
+    fun execute(id: UUID, money: ULong? = null, name: String? = null): AccountDto {
+        return transaction {
             // アカウント取得
             var account = repository.find(id)
 
@@ -38,6 +39,8 @@ class StoreAccountUseCase(private val repository: AccountRepository) {
             }
 
             repository.store(account)
+
+            AccountDto.fromAccount(account)
         }
     }
 }

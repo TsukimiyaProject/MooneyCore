@@ -10,7 +10,8 @@ class FindAccountUseCase(private val repository: AccountRepository) {
     fun execute(id: UUID): AccountDto {
         return transaction {
             val account = repository.find(id) ?: throw AccountNotFoundException(id)
-            AccountDto(account.id, account.name.value, account.money.amount)
+
+            AccountDto.fromAccount(account)
         }
     }
 }
