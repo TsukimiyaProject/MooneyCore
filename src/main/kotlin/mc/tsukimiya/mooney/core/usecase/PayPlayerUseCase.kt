@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class PayPlayerUseCase(private val repository: AccountRepository) {
-    fun execute(from: UUID, to: UUID, amount: Int) {
+    fun execute(from: UUID, to: UUID, amount: ULong) {
         transaction {
             val fromAccount = repository.find(from) ?: throw AccountNotFoundException(from)
             val toAccount = repository.find(to) ?: throw AccountNotFoundException(to)

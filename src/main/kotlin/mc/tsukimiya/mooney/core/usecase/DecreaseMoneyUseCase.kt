@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class DecreaseMoneyUseCase(private val repository: AccountRepository) {
-    fun execute(id: UUID, amount: Int) {
+    fun execute(id: UUID, amount: ULong) {
         transaction {
             val account = repository.find(id) ?: throw AccountNotFoundException(id)
             account.decreaseMoney(Money(amount))

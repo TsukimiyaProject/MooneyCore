@@ -21,7 +21,7 @@ class StoreAccountUseCase(private val repository: AccountRepository) {
      * @param name  変更があるときに代入
      * @param money 変更があるときに代入
      */
-    fun execute(id: UUID, name: String? = null, money: Int? = null) {
+    fun execute(id: UUID, name: String? = null, money: ULong? = null) {
         transaction {
             // アカウント取得
             var account = repository.find(id)

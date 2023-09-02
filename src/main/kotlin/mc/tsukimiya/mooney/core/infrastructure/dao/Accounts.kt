@@ -5,5 +5,5 @@ import org.jetbrains.exposed.sql.Column
 
 object Accounts : UUIDTable() {
     val name: Column<String> = varchar("name", 16)
-    val money: Column<Int> = integer("money")
+    val money: Column<ULong> = ulong("money")
 }

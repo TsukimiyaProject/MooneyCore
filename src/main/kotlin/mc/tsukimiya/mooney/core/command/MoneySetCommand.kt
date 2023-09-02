@@ -15,7 +15,7 @@ class MoneySetCommand(private val formatter: MessageFormatter) : BaseSubCommand(
     "tsukimiya.mooney.core.set"
 ) {
     override fun onRun(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if (args == null || args.size != 2 || !Validation.isInt(args[1])) {
+        if (args == null || args.size != 2 || !Validation.isNaturalNumber(args[1])) {
             return false
         }
 
@@ -25,7 +25,7 @@ class MoneySetCommand(private val formatter: MessageFormatter) : BaseSubCommand(
             return true
         }
 
-        val amount = args[1].toInt()
+        val amount = args[1].toULong()
         try {
             MooneyCore.instance.setMoney(target, amount)
             sender.sendMessage(
