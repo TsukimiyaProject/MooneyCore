@@ -129,7 +129,7 @@ class MooneyCore : JavaPlugin(), Listener {
     fun createAccount(uuid: UUID, name: String, defaultMoney: ULong) {
         require(defaultMoney >= 0u) { "Amount must be non-negative was $defaultMoney" }
 
-        StoreAccountUseCase(accountRepository).execute(uuid, name, defaultMoney)
+        StoreAccountUseCase(accountRepository).execute(uuid, defaultMoney, name)
         Bukkit.getPluginManager().callEvent(CreateWalletEvent(uuid))
     }
 
