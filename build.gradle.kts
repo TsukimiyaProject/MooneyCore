@@ -11,7 +11,7 @@ plugins {
 group = "mc.tsukimiya.mooney"
 version = "1.0.2"
 
-val mcVersion = "1.19.3"
+val mcVersion = "1.20.1"
 
 repositories {
     mavenCentral()
@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:${mcVersion}-R0.1-SNAPSHOT")
-    compileOnly("mc.tsukimiya:lib4b:1.1.0")
+    compileOnly("mc.tsukimiya:lib4b:1.1.2")
     library(kotlin("stdlib"))
     library("org.jetbrains.exposed:exposed-core:0.41.1")
     library("org.jetbrains.exposed:exposed-jdbc:0.41.1")
