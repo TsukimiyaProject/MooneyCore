@@ -3,7 +3,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     java
     `maven-publish`
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.9.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
 }
@@ -32,8 +32,8 @@ dependencies {
     library("org.jetbrains.exposed:exposed-core:0.41.1")
     library("org.jetbrains.exposed:exposed-jdbc:0.41.1")
     library("org.jetbrains.exposed:exposed-dao:0.41.1")
-    library("org.xerial:sqlite-jdbc:3.40.1.0")
-    library("com.mysql:mysql-connector-j:8.0.32")
+    library("org.xerial:sqlite-jdbc:3.41.2.2")
+    library("com.mysql:mysql-connector-j:8.2.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
