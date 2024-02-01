@@ -23,6 +23,7 @@ class DatabaseConnector {
                 }
                 Database.connect("jdbc:sqlite:${file.path}", "org.sqlite.JDBC")
             }
+
             "mysql" -> {
                 val address = config.getString("mysql.address") ?: throw ConfigKeyNotFoundException("mysql.address")
                 val port = config.getInt("mysql.port", -1).let {
@@ -33,6 +34,7 @@ class DatabaseConnector {
                 val password = config.getString("mysql.password") ?: throw ConfigKeyNotFoundException("mysql.password")
                 Database.connect("jdbc:mysql://${address}:${port}/${db}", "com.mysql.jdbc.Driver", user, password)
             }
+
             else -> throw InvalidConfigValueException("db-type", type ?: "")
         }
 
