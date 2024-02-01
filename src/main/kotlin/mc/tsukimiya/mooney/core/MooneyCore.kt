@@ -56,7 +56,7 @@ class MooneyCore : JavaPlugin(), Listener, MooneyCoreAPI {
         createAccount(event.player.uniqueId, event.player.name, config.getLong("default-money").toULong())
     }
 
-    override fun getMoney(uuid: UUID): ULong? {
+    override fun getMoney(uuid: UUID): ULong {
         return FindAccountUseCase(accountRepository).execute(uuid).money
     }
 
@@ -66,7 +66,7 @@ class MooneyCore : JavaPlugin(), Listener, MooneyCoreAPI {
      * @param uuid
      * @param amount
      */
-    override fun setMoney(uuid: UUID, amount: ULong): Boolean {
+    override fun setMoney(uuid: UUID, amount: ULong) {
         require(amount >= 0u) { "Amount must be non-negative was $amount" }
 
         StoreAccountUseCase(accountRepository).execute(uuid, money = amount)
@@ -79,7 +79,7 @@ class MooneyCore : JavaPlugin(), Listener, MooneyCoreAPI {
      * @param uuid
      * @param amount
      */
-    override fun increaseMoney(uuid: UUID, amount: ULong): Boolean {
+    override fun increaseMoney(uuid: UUID, amount: ULong) {
         require(amount >= 0u) { "Amount must be non-negative was $amount" }
 
         IncreaseMoneyUseCase(accountRepository).execute(uuid, amount)
@@ -92,7 +92,7 @@ class MooneyCore : JavaPlugin(), Listener, MooneyCoreAPI {
      * @param uuid
      * @param amount
      */
-    override fun decreaseMoney(uuid: UUID, amount: ULong): Boolean {
+    override fun decreaseMoney(uuid: UUID, amount: ULong) {
         require(amount >= 0u) { "Amount must be non-negative was $amount" }
 
         DecreaseMoneyUseCase(accountRepository).execute(uuid, amount)
@@ -106,7 +106,7 @@ class MooneyCore : JavaPlugin(), Listener, MooneyCoreAPI {
      * @param to   支払先
      * @param amount
      */
-    override fun payMoney(from: UUID, to: UUID, amount: ULong): Boolean {
+    override fun payMoney(from: UUID, to: UUID, amount: ULong) {
         require(amount >= 0u) { "Amount must be non-negative was $amount" }
 
         PayPlayerUseCase(accountRepository).execute(from, to, amount)
