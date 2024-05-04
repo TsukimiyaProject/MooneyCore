@@ -1,19 +1,17 @@
 # MooneyCore
-ジ・エコノミープラグイン for 月宮計画  
-
-## Todo:v1.1.0
-- [ ] 「クエストクリアしてもお金もらえません！」みたいな嘘つくガキの対策としてログ機能を追加
+ジ・エコノミープラグイン for 月宮計画
 
 ## コマンド
-| コマンド | 引数 | 内容 | パーミッション |
-| --- | --- | --- | --- |
-| /money | | 自分の所持金を表示する | `tsukimiya.mooney.core.money` |
-| /money show | `<player>` | `<player>`の所持金を表示する | `tsukimiya.mooney.core.show` |
-| /money pay | `<player>` `<amount>` | `<player>`に`<amount>`支払う | `tsukimiya.mooney.core.pay` |
-| /money set | `<player>` `<amount>` | `<player>`の所持金を`<amount>`に設定する | `tsukimiya.mooney.core.set` |
-| /money plus | `<player>` `<amount>` | `<player>`の所持金を`<amount>`増やす | `tsukimiya.mooney.core.plus` |
-| /money minus | `<player>` `<amount>` | `<player>`の所持金を`<amount>`減らす | `tsukimiya.mooney.core.minus` |
-| /money help | | コマンドの使い方を表示する | `tsukimiya.mooney.core.help` `tsukimiya.mooney.core.help.op` |
+| コマンド        | 引数 | 内容 | パーミッション                                                      |
+|-------------| --- | --- |--------------------------------------------------------------|
+| /mymoney    | | 自分の所持金を表示する | `tsukimiya.mooney.core.mymoney`                              |
+| /showmoeny  | `<player>` | `<player>`の所持金を表示する | `tsukimiya.mooney.core.showmoney`                            |
+| /paymoney   | `<player>` `<amount>` | `<player>`に`<amount>`支払う | `tsukimiya.mooney.core.paymoney`                             |
+| /setmoney   | `<player>` `<amount>` | `<player>`の所持金を`<amount>`に設定する | `tsukimiya.mooney.core.setmoney`                             |
+| /givemoney  | `<player>` `<amount>` | `<player>`の所持金を`<amount>`増やす | `tsukimiya.mooney.core.givemoney`                            |
+| /takemoney  | `<player>` `<amount>` | `<player>`の所持金を`<amount>`減らす | `tsukimiya.mooney.core.takemoney`                            |
+| /topmoney | `<page>` | 所持金のランキングを表示する | `tsukimiya.mooney.core.topmoney` |
+| /logmoney | `<page>` | 所持金のログを表示する | `tsukimiya.mooney.core.logmoney` |
 
 ## パーミッション
 | パーミッション | 内容 | デフォルト |
@@ -38,41 +36,38 @@ import mc.tsukimiya.mooney.core.MooneyCore
 
 ### 所持金を取得する
 ```kotlin
-// @param player UUID プレイヤーのUUID
-val money: Int = MooneyCore.instance.getMoney(player)
-```
-
-### 所持金を設定する
-```kotlin
-// @param amount Int 金額
-MooneyCore.instance.setMoney(player, amount)
+// @param id UUID プレイヤーのUUID
+val money: Int = MooneyCore.api.getMoney(id)
 ```
 
 ### 所持金を増やす
 ```kotlin
-MooneyCore.instance.increaseMoney(player, amount)
+// @param money Long
+// @param reason 理由(ログ用)
+MooneyCore.api.depositMoney(id, money, reason)
 ```
 
 ### 所持金を減らす
 ```kotlin
-MooneyCore.instance.decreaseMoney(player, amount)
+MooneyCore.api.withdrawMoney(player, money, reason)
 ```
 
 ### 所持金を支払う
 ```kotlin
 // @param from UUID 支払元 
 // @param to   UUID 支払先
-MooneyCore.instance.payMoney(from, to, amount)
+MooneyCore.api.payMoney(from, to, amount, fromReason, toReason)
 ```
 
-### アカウント作成(使用非推奨)
+### アカウント作成
 ```kotlin
 // @param defaultMoney Int 初期所持金
-MooneyCore.instance.createAccount(player, defaultMoney)
+MooneyCore.api.storeAccount(id, name, money, reason)
 ```
 
-### アカウント削除(使用非推奨)
+### その他
+APIを見てください。  
+[MooneyCoreAPI](https://github.com/TsukimiyaProject/MooneyCore/blob/master/src/main/kotlin/mc/tsukimiya/mooney/core/MooneyCoreAPI.kt)
 ```kotlin
-MooneyCore.instance.deleteAccount(player)
+MooneyCore.api
 ```
-
