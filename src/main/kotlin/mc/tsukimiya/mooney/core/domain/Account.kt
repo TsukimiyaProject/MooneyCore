@@ -3,28 +3,26 @@ package mc.tsukimiya.mooney.core.domain
 import java.util.*
 
 /**
- * アカウントクラス
- *
- * @property id    UUID
- * @property name  マイクラのID
- * @property money 所持金
+ * アカウント
  */
-class Account(val id: UUID, var name: Name, var money: Money) {
+data class Account(val id: UUID, var name: Name, var money: Money) {
     /**
-     * 所持金をmoneyの量だけ増やす
+     * お金を受け取る
      *
      * @param money
      */
-    fun increaseMoney(money: Money) {
+    fun receiveMoney(money: Money) {
         this.money = Money(this.money.amount + money.amount)
     }
 
     /**
-     * 所持金をmoneyの量だけ減らす
+     * お金を支払う
      *
      * @param money
+     * @return
      */
-    fun decreaseMoney(money: Money) {
+    fun payMoney(money: Money): Money {
         this.money = Money(this.money.amount - money.amount)
+        return Money(money.amount)
     }
 }

@@ -2,137 +2,84 @@ package mc.tsukimiya.mooney.core
 
 import mc.tsukimiya.lib4b.command.CommandRegistrar
 import mc.tsukimiya.lib4b.lang.MessageFormatter
-import mc.tsukimiya.mooney.core.command.*
-import mc.tsukimiya.mooney.core.config.DatabaseConnector
+import mc.tsukimiya.mooney.core.config.DatabaseConnectorImpl
+import mc.tsukimiya.mooney.core.config.SystemAccount
 import mc.tsukimiya.mooney.core.domain.AccountRepository
-import mc.tsukimiya.mooney.core.event.CreateWalletEvent
-import mc.tsukimiya.mooney.core.event.MoneyAmountChangedEvent
-import mc.tsukimiya.mooney.core.infrastructure.repository.newInstance
-import mc.tsukimiya.mooney.core.usecase.*
-import org.bukkit.Bukkit
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
+import mc.tsukimiya.mooney.core.domain.Money
+import mc.tsukimiya.mooney.core.domain.TransactionHistoryRepository
+import mc.tsukimiya.mooney.core.infrastructure.repository.AccountRepositoryImpl
+import mc.tsukimiya.mooney.core.infrastructure.repository.TransactionHistoryRepositoryImpl
+import mc.tsukimiya.mooney.core.presentation.api.MooneyCoreAPIImpl
+import mc.tsukimiya.mooney.core.presentation.command.*
+import mc.tsukimiya.mooney.core.presentation.listener.PlayerJoinListener
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.*
 
-class MooneyCore : JavaPlugin(), Listener, MooneyCoreAPI {
+class MooneyCore : JavaPlugin() {
     companion object {
-        lateinit var instance: MooneyCore
+        // 他プラグインでトランザクションとか気にするとき用
+        val accountRepository: AccountRepository = AccountRepositoryImpl()
+        val historyRepository: TransactionHistoryRepository = TransactionHistoryRepositoryImpl()
+
+        // トランザクションとか気にしないならAPIでいい
+        val api: MooneyCoreAPI = MooneyCoreAPIImpl(accountRepository, historyRepository)
+
+        // フォーマッター
+        lateinit var formatter: MessageFormatter
+            private set
     }
 
-    private lateinit var formatter: MessageFormatter
-    private val accountRepository = AccountRepository.newInstance()
-
     override fun onEnable() {
-        instance = this
-
+        // コンフィグ読み込み
         dataFolder.mkdir()
         saveDefaultConfig()
         config.options().copyDefaults(true)
         saveConfig()
 
-        server.pluginManager.registerEvents(this, this)
+        // メッセージコンフィグ
         formatter = MessageFormatter(config)
+
+        // イベントリスナー登録
+        server.pluginManager.registerEvents(PlayerJoinListener(config.getLong("default-money"), formatter.formatMessage("log.create")), this)
+
+        // コマンド登録
         registerCommands()
-        DatabaseConnector().connect(config)
+
+        // DB接続
+        DatabaseConnectorImpl().connect(config)
+
+        // システムアカウント登録
+        createSystemAccounts()
     }
 
+    /**
+     * コマンドの登録
+     *
+     */
     private fun registerCommands() {
-        val registrar = CommandRegistrar(this)
-        registrar.registerCommand(
-            MoneyCommand(formatter),
-            MoneySetCommand(formatter),
-            MoneyShowCommand(formatter),
-            MoneyPlusCommand(formatter),
-            MoneyMinusCommand(formatter),
-            MoneyPayCommand(formatter),
-            MoneyHelpCommand(formatter)
+        val commands = mutableMapOf(
+            Pair("givemoney", GiveMoneyCommand()),
+            Pair("mymoney", MyMoneyCommand()),
+            Pair("paymoney", PayMoneyCommand()),
+            Pair("setmoney", SetMoneyCommand()),
+            Pair("showmoney", ShowMoneyCommand()),
+            Pair("takemoney", TakeMoneyCommand())
         )
-    }
-
-    @EventHandler
-    fun onPlayerJoin(event: PlayerJoinEvent) {
-        createAccount(event.player.uniqueId, event.player.name, config.getLong("default-money").toULong())
-    }
-
-    override fun getMoney(uuid: UUID): ULong {
-        return FindAccountUseCase(accountRepository).execute(uuid).money
+        CommandRegistrar.registerCommands(this, commands)
     }
 
     /**
-     * プレイヤーの所持金を設定する
+     * システムアカウントの登録
      *
-     * @param uuid
-     * @param amount
      */
-    override fun setMoney(uuid: UUID, amount: ULong) {
-        require(amount >= 0u) { "Amount must be non-negative was $amount" }
-
-        StoreAccountUseCase(accountRepository).execute(uuid, money = amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(uuid))
-    }
-
-    /**
-     * プレイヤーの所持金を増やす
-     *
-     * @param uuid
-     * @param amount
-     */
-    override fun increaseMoney(uuid: UUID, amount: ULong) {
-        require(amount >= 0u) { "Amount must be non-negative was $amount" }
-
-        IncreaseMoneyUseCase(accountRepository).execute(uuid, amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(uuid))
-    }
-
-    /**
-     * プレイヤーの所持金を減らす
-     *
-     * @param uuid
-     * @param amount
-     */
-    override fun decreaseMoney(uuid: UUID, amount: ULong) {
-        require(amount >= 0u) { "Amount must be non-negative was $amount" }
-
-        DecreaseMoneyUseCase(accountRepository).execute(uuid, amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(uuid))
-    }
-
-    /**
-     * プレイヤーからプレイヤーへお金を払う
-     *
-     * @param from 支払元
-     * @param to   支払先
-     * @param amount
-     */
-    override fun payMoney(from: UUID, to: UUID, amount: ULong) {
-        require(amount >= 0u) { "Amount must be non-negative was $amount" }
-
-        PayPlayerUseCase(accountRepository).execute(from, to, amount)
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(from))
-        Bukkit.getPluginManager().callEvent(MoneyAmountChangedEvent(to))
-    }
-
-    /**
-     * プレイヤーのデータ作成
-     *
-     * @param player
-     * @param defaultMoney
-     */
-    override fun createAccount(uuid: UUID, name: String, defaultMoney: ULong) {
-        require(defaultMoney >= 0u) { "Amount must be non-negative was $defaultMoney" }
-
-        StoreAccountUseCase(accountRepository).execute(uuid, defaultMoney, name)
-        Bukkit.getPluginManager().callEvent(CreateWalletEvent(uuid))
-    }
-
-    /**
-     * プレイヤーのデータ削除
-     *
-     * @param uuid
-     */
-    override fun deleteAccount(uuid: UUID) {
-        DeleteAccountUseCase(accountRepository).execute(uuid)
+    private fun createSystemAccounts() {
+        SystemAccount.entries.forEach {
+            // システムアカウントが存在しない場合は作成、存在する場合は名前だけ更新
+            if (!api.existsAccount(it.account.id)) {
+                api.storeAccount(it.account.id, it.account.name.value, config.getLong("default-money"), formatter.formatMessage("log.create"))
+            } else {
+                api.storeAccount(it.account.id, it.account.name.value)
+            }
+            it.account.money = Money(api.getMoney(it.account.id)!!)
+        }
     }
 }

@@ -3,49 +3,26 @@ package mc.tsukimiya.mooney.core.domain
 import java.util.*
 
 interface AccountRepository {
-    companion object
-
     /**
-     * アカウント取得
+     * IDからアカウント取得
      *
-     * @param owner
-     * @return 見つからなければnullを返す
+     * @param id
+     * @return
      */
-    fun find(owner: UUID): Account?
+    fun find(id: UUID): Account?
 
     /**
-     * マイクラIDからアカウント取得
+     * 名前からアカウント取得
      *
      * @param name
-     * @return 見つからなければnullを返す
+     * @return
      */
     fun findByName(name: Name): Account?
 
     /**
-     * 全アカウント取得
+     * アカウント保存
      *
-     * @return
-     */
-    fun findAll(): Map<UUID, Account>
-
-    /**
-     * 登録されているアカウント数
-     *
-     * @return
-     */
-    fun count(): Long
-
-    /**
-     * アカウントを保存
-     *
-     * @param wallet
+     * @param account
      */
     fun store(account: Account)
-
-    /**
-     * アカウントを削除
-     *
-     * @param owner
-     */
-    fun delete(owner: UUID)
 }

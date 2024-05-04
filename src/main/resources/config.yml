@@ -1,43 +1,43 @@
 default-money: 1000
 
-command:
+message:
   general:
-    not-found-player: "%ERROR% %0のデータは存在しません。"
-    negative-amount: "%ERROR% マイナスの値は設定できません。"
-    less-than-zero: "%ERROR% 所持金が0円以下になるため、この操作はできません。"
-  money:
-    success: "%INFO% あなたの所持金は%0円です。"
-  set:
-    success: "%SUCCESS% %0の所持金を%1円に設定しました。"
-    usage: "/money set <プレイヤー名> <金額>"
-  show:
+    arg-not-enough: "%ERROR% コマンドの引数が足りません。"
+    validate-money: "%ERROR% 金額は0以上1京未満の範囲で入力してください。"
+    validate-reason: "%ERROR% 理由は50文字以内で入力してください。"
+    not-found-data: "%ERROR% %0のデータは見つかりませんでした。"
+    over-lower: "%ERROR% %0の所持金がマイナスになるため、この操作はできません。"
+    over-upper: "%ERROR% %0の所持金が上限を超えるため、この操作はできません。"
+  mymoney:
     success: "%INFO% %0の所持金は%1円です。"
-    usage: "/money show <プレイヤー名>"
-  plus:
+  setmoney:
+    success: "%SUCCESS% %0の所持金を%1円に設定しました。"
+  showmoney:
+    success: "%INFO% %0の所持金は%1円です。"
+  givemoney:
     success: "%SUCCESS% %0の所持金を%1円増やしました。"
-    usage: "/money plus <プレイヤー名> <金額>"
-  minus:
+  takemoney:
     success: "%SUCCESS% %0の所持金を%1円減らしました。"
-    usage: "/money minus <プレイヤー名> <金額>"
-  pay:
+  paymoney:
     success: "%SUCCESS% %0に%1円支払いました。"
-    usage: "/money pay <プレイヤー名> <金額>"
-  help:
-    header: "===== moneyコマンド一覧&使い方 ====="
-    money: "自分の所持金を表示する：/money"
-    pay: "お金を払う：/money pay <プレイヤー名> <金額>"
-    show: "他人の所持金を表示する：/money show <プレイヤー名>"
-    set: "所持金を設定する：/money set <プレイヤー名> <金額>"
-    plus: "所持金を増やす：/money plus <プレイヤー名> <金額>"
-    minus: "所持金を減らす：/money minus <プレイヤー名> <金額>"
+    over-lower: "%ERROR% 所持金が足りません。"
+    over-upper: "%ERROR% %0の所持金が上限を超えるため、お支払いはキャンセルされました。"
+log:
+  create: "データ作成"
+  pay: "%0に支払い"
+  paid: "%0から入金"
+  take: "%0から徴収(管理者コマンド)"
+  give: "%0から入金(管理者コマンド)"
+  set: "%0による調整(管理者コマンド)"
 
 # sqlite or mysql
 db-type: sqlite
 sqlite:
-  file: mooney-core.sqlite3
+  folder: database
+  file: TsukimiyaProject.db
 mysql:
   address: localhost
   port: 3306
-  database: example
+  database: tsukimiya_project
   user: root
   password: password

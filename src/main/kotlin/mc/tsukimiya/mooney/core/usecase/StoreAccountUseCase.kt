@@ -1,46 +1,47 @@
 package mc.tsukimiya.mooney.core.usecase
 
-import mc.tsukimiya.mooney.core.domain.Account
-import mc.tsukimiya.mooney.core.domain.AccountRepository
-import mc.tsukimiya.mooney.core.domain.Money
-import mc.tsukimiya.mooney.core.domain.Name
-import mc.tsukimiya.mooney.core.usecase.dto.AccountDto
+import mc.tsukimiya.mooney.core.domain.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 /**
- * アカウント保存
+ * アカウントを保存
  *
- * @property repository
+ * @property accountRepository
+ * @property historyRepository
+ * @constructor Create empty Store wallet use case
  */
-class StoreAccountUseCase(private val repository: AccountRepository) {
-    /**
-     * nameとmoneyはnullでなければ値の変更があると見なし、値の保存を行う
-     * 変更があるときのみ、execute(id, name = 〇〇, money = 〇〇)で呼び出す
-     *
-     * @param id
-     * @param money 変更があるときに代入
-     * @param name  変更があるときに代入
-     */
-    fun execute(id: UUID, money: ULong? = null, name: String? = null): AccountDto {
-        return transaction {
-            // アカウント取得
-            var account = repository.find(id)
+internal class StoreAccountUseCase(
+    private val accountRepository: AccountRepository,
+    private val historyRepository: TransactionHistoryRepository,
+) {
+    fun execute(id: UUID, name: String? = null, money: Long? = null, reason: String = "") {
+        transaction {
+            var account = accountRepository.find(id)
 
+            var oldMoney = Money(0)
+            var history: TransactionHistory? = null
+
+            // アカウントがある場合はUPDATE、ない場合はINSERT
             if (account != null) {
-                // 引数がnullでなければ値の変更があるとみなし、代入を行う
-                if (name != null) account.name = Name(name)
-                if (money != null) account.money = Money(money)
+                // 名前が設定されている かつ 名前に変更がある場合は名前を更新
+                if (name != null && account.name != Name(name)) account.name = Name(name)
+
+                // 金額が設定されている かつ 金額に変更がある場合
+                if (money != null && account.money != Money(money)) {
+                    oldMoney = account.money
+                    account.money = Money(money)
+                    history = TransactionHistoryService().newTransactionHistory(account, oldMoney, TransactionReason(reason))
+                }
             } else {
                 require(name != null)
                 require(money != null)
-
                 account = Account(id, Name(name), Money(money))
+                history = TransactionHistoryService().newTransactionHistory(account, oldMoney, TransactionReason(reason))
             }
 
-            repository.store(account)
-
-            AccountDto.fromAccount(account)
+            accountRepository.store(account)
+            if (history != null) historyRepository.store(history)
         }
     }
 }

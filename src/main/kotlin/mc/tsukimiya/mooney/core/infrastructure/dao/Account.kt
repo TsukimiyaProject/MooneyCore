@@ -10,4 +10,6 @@ class Account(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var name by Accounts.name
     var money by Accounts.money
+    var createdAt by Accounts.createdAt
+    var updatedAt by Accounts.updatedAt
 }
