@@ -1,0 +1,17 @@
+CREATE TABLE wallets (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    owner BINARY(16) NOT NULL UNIQUE,
+    money INTEGER NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE money_transactions (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    player INTEGER,
+    payee INTEGER,
+    amount INTEGER NOT NULL,
+    reason VARCHAR(255),
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (player) REFERENCES wallets(id),
+    FOREIGN KEY (payee) REFERENCES wallets(id)
+);

@@ -1,0 +1,24 @@
+money: "%sの所持金:%s%s"
+give: "%sの所持金を%s%s増やしました。(%sの所持金:%s%s)"
+take: "%sの所持金を%s%s減らしました。(%sの所持金:%s%s)"
+pay: "%sに%s%s支払いました。(現在の所持金:%s%s)"
+log:
+  write:
+    give: "管理者から入金"
+    take: "管理者により剝奪"
+    pay: "%sから%sへ支払"
+  read:
+    header: "------- %d/%dページを表示 -------"
+    content: "%tF %tT %s [%s%s%s]" # [INFO] 1999-12-31 23:59:59 管理者から入金 [+ 1,000円]
+no-money: "所持金が足りません。"
+no-data: "%sのデータは存在しません。"
+error: "§c指定の操作を完了することができませんでした。(%s)"
+help:
+  header: "------- EconomyAPI -------"
+  money: "表示: /money"
+  money-other: "表示: /money <プレイヤー名>"
+  pay: "支払: /money pay <プレイヤー名> <金額>"
+  give: "付与: /money give <プレイヤー名> <金額>"
+  take: "剝奪: /money take <プレイヤー名> <金額>"
+  log: "履歴: /money log [ページ数]"
+  log-other: "履歴: /money log <プレイヤー名> [ページ数]"

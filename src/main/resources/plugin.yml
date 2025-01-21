@@ -1,0 +1,33 @@
+name: MooneyCore
+version: 2.0.0
+main: mc.tsukimiya.mooney.core.MooneyCore
+description: 経済プラグイン
+author: deceitya
+website: https://github.com/TsukimiyaProject/MooneyCore
+api-version: 1.21
+load: POSTWORLD
+depend: [DBConnector, CommandFramework, Vault]
+libraries:
+  - org.jetbrains.kotlin:kotlin:kotlin-stdlib:2.2.0
+permissions:
+  mooneycore.commands.money.show:
+    default: true
+  mooneycore.commands.money.show.other:
+    default: op
+  mooneycore.commands.money.pay:
+    default: op
+  mooneycore.commands.money.give:
+    default: op
+  mooneycore.commands.money.take:
+    default: op
+  mooneycore.commands.money.log:
+    default: true
+  mooneycore.commands.money.log.other:
+    default: op
+  mooneycore.commands.money.help:
+    default: true
+commands:
+  money:
+    description: お金コマンド
+    permission: mooneycore.commands.money.show
+    usage: /money help

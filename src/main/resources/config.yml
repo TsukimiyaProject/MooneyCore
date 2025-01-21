@@ -1,43 +1,10 @@
+# 初期所持金
 default-money: 1000
 
-message:
-  general:
-    arg-not-enough: "%ERROR% コマンドの引数が足りません。"
-    validate-money: "%ERROR% 金額は0以上1京未満の範囲で入力してください。"
-    validate-reason: "%ERROR% 理由は50文字以内で入力してください。"
-    not-found-data: "%ERROR% %0のデータは見つかりませんでした。"
-    over-lower: "%ERROR% %0の所持金がマイナスになるため、この操作はできません。"
-    over-upper: "%ERROR% %0の所持金が上限を超えるため、この操作はできません。"
-  mymoney:
-    success: "%INFO% %0の所持金は%1円です。"
-  setmoney:
-    success: "%SUCCESS% %0の所持金を%1円に設定しました。"
-  showmoney:
-    success: "%INFO% %0の所持金は%1円です。"
-  givemoney:
-    success: "%SUCCESS% %0の所持金を%1円増やしました。"
-  takemoney:
-    success: "%SUCCESS% %0の所持金を%1円減らしました。"
-  paymoney:
-    success: "%SUCCESS% %0に%1円支払いました。"
-    over-lower: "%ERROR% 所持金が足りません。"
-    over-upper: "%ERROR% %0の所持金が上限を超えるため、お支払いはキャンセルされました。"
-log:
-  create: "データ作成"
-  pay: "%0に支払い"
-  paid: "%0から入金"
-  take: "%0から徴収(管理者コマンド)"
-  give: "%0から入金(管理者コマンド)"
-  set: "%0による調整(管理者コマンド)"
+# ログの表示数
+log-count: 5
 
-# sqlite or mysql
-db-type: sqlite
-sqlite:
-  folder: database
-  file: TsukimiyaProject.db
-mysql:
-  address: localhost
-  port: 3306
-  database: tsukimiya_project
-  user: root
-  password: password
+# 所持金の計算方法(normal / history)   取得結果は変わらない(はず)なので大体の場合はnormalでよい
+# normal  : 動作がhistoryと比べて軽い ただし整合性が甘い(かも)
+# history : 取引履歴から所持金を計算するため動作がnormalより重い ただし整合性が取れる
+repo: normal
