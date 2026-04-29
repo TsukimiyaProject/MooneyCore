@@ -1,5 +1,5 @@
 name: MooneyCore
-version: 3.0.0
+version: 3.0.1
 main: mc.tsukimiya.mooney.core.MooneyCore
 description: 経済プラグイン
 author: deceitya

@@ -156,7 +156,7 @@ class MooneyCore : JavaPlugin(), Economy {
 
     override fun fractionalDigits() = 0
 
-    override fun format(amount: Double) = "%,.0f".format(amount)
+    override fun format(amount: Double) = "%,.0f".format(amount) + currencyNameSingular()
 
     override fun currencyNamePlural() = currencyNameSingular()
 
