@@ -17,25 +17,27 @@ class PayCommand(private val plugin: MooneyCore) : SubCommandBase("pay", "mooney
         val target = Bukkit.getOfflinePlayer(args[0])
         val amount = args[1].toIntOrNull() ?: return false
 
-        if (!plugin.vault.hasAccount(target)) {
+        if (!plugin.hasAccount(target)) {
             sender.sendMessage(plugin.messages.getString("no-data")!!.format(args[0]))
             return true
         }
 
-        if (!plugin.vault.has(sender, amount.toDouble())) {
+        if (!plugin.has(sender, amount.toDouble())) {
             sender.sendMessage(plugin.messages.getString("no-money")!!)
             return true
         }
 
-        val response = plugin.vault.pay(sender, target, amount.toDouble())
+        val reason = args.getOrNull(2) ?: plugin.messages.getString("log.write.pay")!!.format(sender.name, target.name)
+
+        val response = plugin.pay(sender, target, amount.toDouble(), reason)
         if (response.first.type == EconomyResponse.ResponseType.SUCCESS) {
             sender.sendMessage(
                 plugin.messages.getString("pay")!!.format(
                     target.name,
-                    plugin.vault.format(response.first.amount),
-                    plugin.vault.currencyNameSingular(),
-                    plugin.vault.format(response.first.balance),
-                    plugin.vault.currencyNameSingular()
+                    plugin.format(response.first.amount),
+                    plugin.currencyNameSingular(),
+                    plugin.format(response.first.balance),
+                    plugin.currencyNameSingular()
                 )
             )
         } else {
@@ -50,7 +52,7 @@ class PayCommand(private val plugin: MooneyCore) : SubCommandBase("pay", "mooney
         command: Command,
         label: String,
         args: Array<out String>
-    ): List<String?>? {
+    ): List<String?> {
         val list = mutableListOf<String>()
         if (args.size == 1) {
             Bukkit.getOfflinePlayers().filter { it.name?.startsWith(args[0]) ?: false }.forEach {

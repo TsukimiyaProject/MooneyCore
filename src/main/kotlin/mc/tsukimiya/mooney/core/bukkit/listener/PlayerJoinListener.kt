@@ -1,15 +1,15 @@
 package mc.tsukimiya.mooney.core.bukkit.listener
 
-import mc.tsukimiya.mooney.core.VaultProvider
+import net.milkbowl.vault.economy.Economy
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class PlayerJoinListener(private val vault: VaultProvider) : Listener {
+class PlayerJoinListener(private val economy: Economy) : Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        if (!vault.hasAccount(event.player)) {
-            vault.createPlayerAccount(event.player)
+        if (!economy.hasAccount(event.player)) {
+            economy.createPlayerAccount(event.player)
         }
     }
 }

@@ -1,14 +1,23 @@
 name: MooneyCore
-version: 2.0.0
+version: 3.0.0
 main: mc.tsukimiya.mooney.core.MooneyCore
 description: 経済プラグイン
 author: deceitya
 website: https://github.com/TsukimiyaProject/MooneyCore
 api-version: 1.21
 load: POSTWORLD
-depend: [DBConnector, CommandFramework, Vault]
+depend:
+  - DBConnector
+  - CommandFramework
+  - Vault
+softdepend:
+  - Essentials
 libraries:
-  - org.jetbrains.kotlin:kotlin:kotlin-stdlib:2.2.0
+  - org.jetbrains.kotlin:kotlin-stdlib:2.2.21
+  - org.jetbrains.exposed:exposed-core:1.0.0
+  - org.jetbrains.exposed:exposed-dao:1.0.0
+  - org.jetbrains.exposed:exposed-jdbc:1.0.0
+  - org.jetbrains.exposed:exposed-kotlin-datetime:1.0.0
 permissions:
   mooneycore.commands.money.show:
     default: true

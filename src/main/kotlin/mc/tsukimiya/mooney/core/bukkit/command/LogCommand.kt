@@ -7,6 +7,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.time.format.DateTimeFormatter
 
 class LogCommand(private val plugin: MooneyCore) : SubCommandBase("log", "mooneycore.commands.money.log") {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -28,25 +29,24 @@ class LogCommand(private val plugin: MooneyCore) : SubCommandBase("log", "mooney
                 }
             }
         }
+        if (page < 1) page = 1
 
-        if (target == null || !plugin.vault.hasAccount(target)) {
+        if (target == null || !plugin.hasAccount(target)) {
             sender.sendMessage(plugin.messages.getString("no-data")!!.format(args[0]))
             return true
         }
 
-        val histories = plugin.vault.getHistories(target, page)!!
+        val histories = plugin.getPagedTransaction(target, page)
 
-        sender.sendMessage(plugin.messages.getString("log.read.header")!!.format(page, histories.second))
-        histories.first.forEach {
+        sender.sendMessage(plugin.messages.getString("log.read.header")!!.format(histories.currentPage, histories.totalPages))
+        histories.items.forEach {
             sender.sendMessage(
                 plugin.messages.getString("log.read.content")!!.format(
-                    it.datetime,
-                    it.datetime,
-                    it.datetime,
-                    it.reason?.value ?: "",
-                    if (it.from?.owner == target.uniqueId) "-" else "+",
-                    plugin.vault.format(it.amount.value.toDouble()),
-                    plugin.vault.currencyNameSingular()
+                    it.datetime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")),
+                    it.reason,
+                    if (it.from == target.uniqueId) "-" else "+",
+                    plugin.format(it.amount),
+                    plugin.currencyNameSingular()
                 )
             )
         }

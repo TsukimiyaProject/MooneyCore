@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.2.0"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin("jvm") version "2.2.21"
+    id("com.gradleup.shadow") version "9.3.0+"
     `maven-publish`
 }
 
 group = "mc.tsukimiya.mooney"
-version = "2.0.0"
+version = "3.0.0"
 
 repositories {
     mavenCentral()
@@ -33,16 +33,21 @@ repositories {
 }
 
 dependencies {
+    compileOnly(kotlin("stdlib"))
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
         exclude("org.bukkit", "bukkit")
     }
-    compileOnly("mc.tsukimiya:db-connector:1.0.0")
+    compileOnly("mc.tsukimiya:db-connector:1.1.1")
     compileOnly("mc.tsukimiya:command-framework:1.0.0")
+    compileOnly("org.jetbrains.exposed:exposed-core:1.0.0")
+    compileOnly("org.jetbrains.exposed:exposed-dao:1.0.0")
+    compileOnly("org.jetbrains.exposed:exposed-jdbc:1.0.0")
+    compileOnly("org.jetbrains.exposed:exposed-kotlin-datetime:1.0.0")
 }
 
 kotlin {
-    jvmToolchain(23)
+    jvmToolchain(21)
 }
 
 publishing {

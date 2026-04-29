@@ -18,14 +18,14 @@ class MoneyCommand(private val plugin: MooneyCore) : CommandBase() {
             return false
         }
 
-        if (!plugin.vault.hasAccount(target)) {
+        if (!plugin.hasAccount(target)) {
             sender.sendMessage(plugin.messages.getString("no-data")!!.format(args[0]))
             return true
         }
 
-        val money = plugin.vault.format(plugin.vault.getBalance(target))
+        val money = plugin.format(plugin.getBalance(target))
         sender.sendMessage(
-            plugin.messages.getString("money")!!.format(target.name, money, plugin.vault.currencyNameSingular())
+            plugin.messages.getString("money")!!.format(target.name, money, plugin.currencyNameSingular())
         )
 
         return true
@@ -36,7 +36,7 @@ class MoneyCommand(private val plugin: MooneyCore) : CommandBase() {
         command: Command,
         label: String,
         args: List<String>
-    ): List<String>? {
+    ): List<String> {
         val list = mutableListOf<String>()
         if (args.size == 1 && sender.hasPermission("mooneycore.commands.money.show.other")) {
             Bukkit.getOfflinePlayers().filter { it.name?.startsWith(args[0]) ?: false }.forEach {

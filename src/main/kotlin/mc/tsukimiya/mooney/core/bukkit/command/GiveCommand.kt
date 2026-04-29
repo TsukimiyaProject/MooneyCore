@@ -16,21 +16,23 @@ class GiveCommand(private val plugin: MooneyCore) : SubCommandBase("give", "moon
         val target = Bukkit.getOfflinePlayer(args[0])
         val amount = args[1].toIntOrNull() ?: return false
 
-        if (!plugin.vault.hasAccount(target)) {
+        if (!plugin.hasAccount(target)) {
             sender.sendMessage(plugin.messages.getString("no-data")!!.format(args[0]))
             return true
         }
 
-        val response = plugin.vault.depositPlayer(target, amount.toDouble())
+        val reason = args.getOrNull(2) ?: plugin.messages.getString("log.write.give")!!
+
+        val response = plugin.depositPlayer(target, amount.toDouble(), reason)
         if (response.type == EconomyResponse.ResponseType.SUCCESS) {
             sender.sendMessage(
                 plugin.messages.getString("give")!!.format(
                     target.name,
-                    plugin.vault.format(response.amount),
-                    plugin.vault.currencyNameSingular(),
+                    plugin.format(response.amount),
+                    plugin.currencyNameSingular(),
                     target.name,
-                    plugin.vault.format(response.balance),
-                    plugin.vault.currencyNameSingular()
+                    plugin.format(response.balance),
+                    plugin.currencyNameSingular()
                 )
             )
         } else {

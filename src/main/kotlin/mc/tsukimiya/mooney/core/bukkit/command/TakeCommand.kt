@@ -16,21 +16,23 @@ class TakeCommand(private val plugin: MooneyCore) : SubCommandBase("take", "moon
         val target = Bukkit.getOfflinePlayer(args[0])
         val amount = args[1].toIntOrNull() ?: return false
 
-        if (!plugin.vault.hasAccount(target)) {
+        if (!plugin.hasAccount(target)) {
             sender.sendMessage(plugin.messages.getString("no-data")!!.format(args[0]))
             return true
         }
 
-        val response = plugin.vault.withdrawPlayer(target, amount.toDouble())
+        val reason = args.getOrNull(2) ?: plugin.messages.getString("log.write.take")!!
+
+        val response = plugin.withdrawPlayer(target, amount.toDouble(), reason)
         if (response.type == EconomyResponse.ResponseType.SUCCESS) {
             sender.sendMessage(
                 plugin.messages.getString("take")!!.format(
                     target.name,
-                    plugin.vault.format(response.amount),
-                    plugin.vault.currencyNameSingular(),
+                    plugin.format(response.amount),
+                    plugin.currencyNameSingular(),
                     target.name,
-                    plugin.vault.format(response.balance),
-                    plugin.vault.currencyNameSingular()
+                    plugin.format(response.balance),
+                    plugin.currencyNameSingular()
                 )
             )
         } else {
@@ -45,7 +47,7 @@ class TakeCommand(private val plugin: MooneyCore) : SubCommandBase("take", "moon
         command: Command,
         label: String,
         args: Array<out String>
-    ): List<String?>? {
+    ): List<String?> {
         val list = mutableListOf<String>()
         if (args.size == 1) {
             Bukkit.getOfflinePlayers().filter { it.name?.startsWith(args[0]) ?: false }.forEach {
