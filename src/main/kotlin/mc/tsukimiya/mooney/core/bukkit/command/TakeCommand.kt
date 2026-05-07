@@ -29,10 +29,8 @@ class TakeCommand(private val plugin: MooneyCore) : SubCommandBase("take", "moon
                 plugin.messages.getString("take")!!.format(
                     target.name,
                     plugin.format(response.amount),
-                    plugin.currencyNameSingular(),
                     target.name,
-                    plugin.format(response.balance),
-                    plugin.currencyNameSingular()
+                    plugin.format(response.balance)
                 )
             )
         } else {

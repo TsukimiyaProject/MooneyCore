@@ -35,9 +35,7 @@ class PayCommand(private val plugin: MooneyCore) : SubCommandBase("pay", "mooney
                 plugin.messages.getString("pay")!!.format(
                     target.name,
                     plugin.format(response.first.amount),
-                    plugin.currencyNameSingular(),
-                    plugin.format(response.first.balance),
-                    plugin.currencyNameSingular()
+                    plugin.format(response.first.balance)
                 )
             )
         } else {

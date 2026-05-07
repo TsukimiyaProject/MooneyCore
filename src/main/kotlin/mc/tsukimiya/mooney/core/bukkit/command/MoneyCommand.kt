@@ -24,9 +24,7 @@ class MoneyCommand(private val plugin: MooneyCore) : CommandBase() {
         }
 
         val money = plugin.format(plugin.getBalance(target))
-        sender.sendMessage(
-            plugin.messages.getString("money")!!.format(target.name, money, plugin.currencyNameSingular())
-        )
+        sender.sendMessage(plugin.messages.getString("money")!!.format(target.name, money))
 
         return true
     }

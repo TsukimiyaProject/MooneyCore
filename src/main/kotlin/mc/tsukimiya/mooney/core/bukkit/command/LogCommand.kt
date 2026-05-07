@@ -45,8 +45,7 @@ class LogCommand(private val plugin: MooneyCore) : SubCommandBase("log", "mooney
                     it.datetime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")),
                     it.reason,
                     if (it.from == target.uniqueId) "-" else "+",
-                    plugin.format(it.amount),
-                    plugin.currencyNameSingular()
+                    plugin.format(it.amount)
                 )
             )
         }
