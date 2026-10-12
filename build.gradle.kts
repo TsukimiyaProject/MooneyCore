@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.2.21"
+    kotlin("jvm") version "2.4.0"
     id("com.gradleup.shadow") version "9.3.0+"
     `maven-publish`
 }
 
 group = "mc.tsukimiya.mooney"
-version = "3.0.2"
+version = "3.0.3"
 
 repositories {
     mavenCentral()
@@ -34,7 +34,7 @@ repositories {
 
 dependencies {
     compileOnly(kotlin("stdlib"))
-    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.+")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
         exclude("org.bukkit", "bukkit")
     }
@@ -47,7 +47,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
 publishing {
